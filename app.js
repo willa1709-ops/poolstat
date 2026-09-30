@@ -3,6 +3,29 @@ const summary = document.querySelector('#summary');
 const updated = document.querySelector('#updated');
 const reload = document.querySelector('#reload');
 
+const preferredOrder = new Map([
+  ['turnov-vysinka', 0],
+  ['jablonec', 10],
+  ['mb-stepanka', 20],
+  ['mb-sokolovna', 30],
+  ['jicin', 40],
+  ['praha-hloubetin', 50],
+]);
+
+function sortedPools(pools) {
+  return [...pools].sort((a, b) => {
+    const aReconstruction = a.status === 'reconstruction';
+    const bReconstruction = b.status === 'reconstruction';
+    if (aReconstruction !== bReconstruction) return aReconstruction ? 1 : -1;
+
+    const aOrder = preferredOrder.get(a.id) ?? 500;
+    const bOrder = preferredOrder.get(b.id) ?? 500;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+
+    return String(a.name || '').localeCompare(String(b.name || ''), 'cs');
+  });
+}
+
 function stateFor(p) {
   if (p.status === 'reconstruction') return ['rekonstrukce', 'reconstruction'];
   if (p.open_now) return ['otevřeno pro veřejnost', 'open'];
@@ -48,12 +71,20 @@ function externalLink(label, rawUrl) {
   return a;
 }
 
-function stat(label, value, unknown = false) {
-  const box = node('div', 'stat');
+function stat(label, value, options = {}) {
+  const classes = ['stat'];
+  if (options.primary) classes.push('stat-primary');
+  const box = node('div', classes.join(' '));
   box.append(node('span', 'label', label));
-  const val = node('span', `value${unknown ? ' unknown' : ''}`, value);
-  box.append(val);
+  box.append(node('span', `value${options.unknown ? ' unknown' : ''}`, value));
   return box;
+}
+
+function detailsNote(text) {
+  const details = node('details', 'details');
+  details.append(node('summary', '', 'Podrobnosti'));
+  details.append(node('p', 'note', text));
+  return details;
 }
 
 function card(p) {
@@ -75,30 +106,30 @@ function card(p) {
   const laneLabel = p.total_lanes ? `${free} / ${p.total_lanes}` : free;
 
   const stats = node('div', 'stats');
-  stats.append(stat('Dnes veřejnost', opening));
-  stats.append(stat('Volné dráhy teď', laneLabel, free === '?'));
-  stats.append(stat('Drah celkem', p.total_lanes ?? '—'));
+  stats.append(stat('Dnes veřejnost', opening, { primary: true }));
+  stats.append(stat('Volné dráhy teď', laneLabel, { unknown: free === '?' }));
   stats.append(stat('Délka dráhy', laneLength(p)));
+  stats.append(stat('Drah celkem', p.total_lanes ?? '—'));
   article.append(stats);
 
   if (p.warning) article.append(node('div', 'warning', p.warning));
   if (p.source_fetch_ok === false) {
     article.append(node('div', 'warning', 'Noční kontrola oficiálního zdroje se nezdařila; zobrazen je uložený pravidelný rozvrh.'));
   }
-  if (p.notes) article.append(node('p', 'note', p.notes));
+  if (p.notes) article.append(detailsNote(p.notes));
 
   const links = node('div', 'links');
   const source = externalLink('Oficiální zdroj ↗', p.source_url);
   const laneSource = externalLink('Rozpis drah ↗', p.lane_source_url);
   if (source) links.append(source);
   if (laneSource) links.append(laneSource);
-  article.append(links);
+  if (links.childElementCount) article.append(links);
 
   return article;
 }
 
-function pill(htmlFreeText) {
-  return node('span', 'pill', htmlFreeText);
+function pill(text) {
+  return node('span', 'pill', text);
 }
 
 function staleHours(generatedAt) {
@@ -108,7 +139,11 @@ function staleHours(generatedAt) {
 }
 
 async function load() {
+  grid.setAttribute('aria-busy', 'true');
+  reload.disabled = true;
+  reload.textContent = 'Načítám…';
   grid.replaceChildren(node('article', 'card', 'Načítám…'));
+
   try {
     const r = await fetch(`data/pools.json?ts=${Date.now()}`, {
       cache: 'no-store',
@@ -119,13 +154,14 @@ async function load() {
     const data = await r.json();
     if (!data || !Array.isArray(data.pools)) throw new Error('Neplatný formát dat');
 
-    grid.replaceChildren(...data.pools.map(card));
+    const pools = sortedPools(data.pools);
+    grid.replaceChildren(...pools.map(card));
 
-    const open = data.pools.filter(p => p.open_now).length;
-    const reconstruction = data.pools.filter(p => p.status === 'reconstruction').length;
+    const open = pools.filter(p => p.open_now).length;
+    const reconstruction = pools.filter(p => p.status === 'reconstruction').length;
     summary.replaceChildren(
       pill(`${open} právě otevřeno`),
-      pill(`${data.pools.length} sledovaných míst`),
+      pill(`${pools.length} sledovaných míst`),
       pill(`${reconstruction} v rekonstrukci`)
     );
 
@@ -143,6 +179,10 @@ async function load() {
     errorCard.append(node('b', '', 'Data se nepodařilo načíst.'));
     errorCard.append(node('p', 'note', e instanceof Error ? e.message : 'Neznámá chyba'));
     grid.replaceChildren(errorCard);
+  } finally {
+    grid.setAttribute('aria-busy', 'false');
+    reload.disabled = false;
+    reload.textContent = 'Načíst znovu';
   }
 }
 
