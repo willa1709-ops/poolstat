@@ -1,0 +1,444 @@
+[
+  {
+    "id": "turnov-vysinka",
+    "name": "Bazén Výšinka",
+    "city": "Turnov",
+    "total_lanes": 4,
+    "source_url": "https://www.sportturnov.cz/sportoviste/bazen-vysinka/",
+    "source_kind": "official_html",
+    "weekly_hours": {
+      "0": [
+        [
+          "06:30",
+          "07:30"
+        ]
+      ],
+      "1": [
+        [
+          "15:00",
+          "20:00"
+        ]
+      ],
+      "2": [
+        [
+          "06:30",
+          "07:30"
+        ]
+      ],
+      "3": [
+        [
+          "15:00",
+          "20:00"
+        ]
+      ],
+      "4": [],
+      "5": [
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "6": [
+        [
+          "14:00",
+          "19:00"
+        ]
+      ]
+    },
+    "notes": "Veřejnost dle rozvrhu sezony 2026/27. Pátek je vyhrazen sportovnímu plavání.",
+    "lane_source_url": null,
+    "lane_lengths_m": [
+      16.5
+    ]
+  },
+  {
+    "id": "jablonec",
+    "name": "Městský plavecký bazén",
+    "city": "Jablonec nad Nisou",
+    "total_lanes": 8,
+    "source_url": "https://www.sportjablonec.cz/cs/bazen/plavecky-bazen",
+    "source_kind": "official_html",
+    "weekly_hours": {
+      "0": [
+        [
+          "06:00",
+          "21:30"
+        ]
+      ],
+      "1": [
+        [
+          "06:00",
+          "21:30"
+        ]
+      ],
+      "2": [
+        [
+          "06:00",
+          "21:30"
+        ]
+      ],
+      "3": [
+        [
+          "06:00",
+          "21:30"
+        ]
+      ],
+      "4": [
+        [
+          "06:00",
+          "21:30"
+        ]
+      ],
+      "5": [
+        [
+          "08:00",
+          "21:30"
+        ]
+      ],
+      "6": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ]
+    },
+    "notes": "O víkendech 8:00–10:00 může platit omezená kapacita. Sledují se i plánované změny provozu.",
+    "lane_source_url": "https://sportjablonec.isportsystem.cz/",
+    "lane_lengths_m": [
+      25
+    ]
+  },
+  {
+    "id": "jicin",
+    "name": "Aqua centrum",
+    "city": "Jičín",
+    "total_lanes": 2,
+    "source_url": "https://www.sport-jicin.cz/koupani/aqua-centrum/bazeny-a-atrakce",
+    "source_kind": "official_html",
+    "weekly_hours": {
+      "0": [
+        [
+          "14:00",
+          "21:00"
+        ]
+      ],
+      "1": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "14:00",
+          "21:00"
+        ]
+      ],
+      "2": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "14:00",
+          "21:00"
+        ]
+      ],
+      "3": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "15:00",
+          "21:00"
+        ]
+      ],
+      "4": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "15:00",
+          "21:00"
+        ]
+      ],
+      "5": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "6": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ]
+    },
+    "notes": "Aqua centrum publikuje rezervace jednotlivých drah; běžný provoz od 7. 9. 2026.",
+    "lane_source_url": "https://www.sport-jicin.cz/koupani/aqua-centrum/bazeny-a-atrakce",
+    "lane_lengths_m": [
+      25
+    ]
+  },
+  {
+    "id": "liberec",
+    "name": "Městský plavecký bazén",
+    "city": "Liberec",
+    "total_lanes": null,
+    "source_url": "https://www.liberec.cz/",
+    "source_kind": "reconstruction",
+    "weekly_hours": {},
+    "status": "reconstruction",
+    "expected_opening": "2027-09",
+    "notes": "Hlavní areál je v rekonstrukci. Přesné datum znovuotevření zatím není stanoveno.",
+    "lane_source_url": null,
+    "lane_lengths_m": [
+      50,
+      25
+    ]
+  },
+  {
+    "id": "mb-stepanka",
+    "name": "Městský bazén Štěpánka",
+    "city": "Mladá Boleslav",
+    "total_lanes": 6,
+    "source_url": "https://stepanka.bazenmb.cz/",
+    "source_kind": "official_html",
+    "weekly_hours": {
+      "0": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "1": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "2": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "3": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "4": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "5": [
+        [
+          "08:30",
+          "22:00"
+        ]
+      ],
+      "6": [
+        [
+          "08:30",
+          "22:00"
+        ]
+      ]
+    },
+    "notes": "25m sportovní bazén má 6 drah. Aktuality mohou dočasně uzavřít právě 25m bazén i při otevření zbytku areálu.",
+    "lane_source_url": "https://stepanka.bazenmb.cz/category/aktuality/",
+    "lane_lengths_m": [
+      25
+    ]
+  },
+  {
+    "id": "mb-sokolovna",
+    "name": "Bazén Sokolovna",
+    "city": "Mladá Boleslav",
+    "total_lanes": 5,
+    "source_url": "https://sokolovna.bazenmb.cz/kontakt/",
+    "source_kind": "official_html",
+    "weekly_hours": {
+      "0": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "14:30",
+          "22:00"
+        ]
+      ],
+      "1": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "13:30",
+          "15:00"
+        ],
+        [
+          "18:00",
+          "22:00"
+        ]
+      ],
+      "2": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "14:00",
+          "22:00"
+        ]
+      ],
+      "3": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "14:00",
+          "22:00"
+        ]
+      ],
+      "4": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "13:30",
+          "15:00"
+        ],
+        [
+          "18:00",
+          "22:00"
+        ]
+      ],
+      "5": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "6": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ]
+    },
+    "notes": "Krytý bazén má 5 drah. Časy mezi bloky jsou běžně vyhrazené školám nebo organizovaným skupinám.",
+    "lane_source_url": null,
+    "lane_lengths_m": [
+      25
+    ]
+  },
+  {
+    "id": "praha-hloubetin",
+    "name": "Plavecký a sportovní areál Hloubětín",
+    "city": "Praha 9 – Hloubětín",
+    "total_lanes": 6,
+    "source_url": "https://www.bazenhloubetin.eu/sluzby/plavani-verejnost/",
+    "source_kind": "official_html",
+    "check_urls": [
+      "https://www.bazenhloubetin.eu/sluzby/plavani-verejnost/",
+      "https://www.bazenhloubetin.eu/category/omezeni/"
+    ],
+    "weekly_hours": {
+      "0": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "12:30",
+          "16:00"
+        ],
+        [
+          "20:00",
+          "22:00"
+        ]
+      ],
+      "1": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "12:30",
+          "16:00"
+        ],
+        [
+          "18:00",
+          "22:00"
+        ]
+      ],
+      "2": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "12:30",
+          "14:00"
+        ],
+        [
+          "18:00",
+          "22:00"
+        ]
+      ],
+      "3": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "12:30",
+          "16:00"
+        ],
+        [
+          "18:00",
+          "22:00"
+        ]
+      ],
+      "4": [
+        [
+          "06:00",
+          "08:00"
+        ],
+        [
+          "12:30",
+          "15:00"
+        ],
+        [
+          "18:00",
+          "22:00"
+        ]
+      ],
+      "5": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "6": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ]
+    },
+    "notes": "Sportovní bazén má 25 × 15 m a 6 drah. Návštěvníci mají opustit prostor bazénu 15 minut před koncem veřejného bloku; mimořádná omezení se kontrolují na oficiálním webu.",
+    "lane_source_url": "https://www.bazenhloubetin.eu/wp-content/uploads/2026/09/Hloubetin-bazen-plan-26-27.pdf",
+    "lane_lengths_m": [
+      25
+    ]
+  }
+]

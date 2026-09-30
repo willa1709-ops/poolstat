@@ -1,0 +1,4 @@
+# Hlavni stranka musi zustat pristupna crawleru, aby mohl precist meta noindex.
+User-agent: *
+Allow: /
+Disallow: /data/
