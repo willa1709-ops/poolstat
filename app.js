@@ -145,7 +145,9 @@ async function load() {
   grid.replaceChildren(node('article', 'card', 'Načítám…'));
 
   try {
-    const r = await fetch(`data/pools.json?ts=${Date.now()}`, {
+    const dataUrl = new URL('./data/pools.json', document.baseURI);
+    dataUrl.searchParams.set('ts', String(Date.now()));
+    const r = await fetch(dataUrl, {
       cache: 'no-store',
       credentials: 'omit',
       referrerPolicy: 'no-referrer'
