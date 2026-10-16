@@ -124,7 +124,7 @@ def main():
     result = []
 
     for pool in pools:
-        item = {k: v for k, v in pool.items() if k not in {"weekly_hours", "check_urls"}}
+        item = {k: v for k, v in pool.items() if k != "check_urls"}
         item["fetched_at"] = now.isoformat(timespec="seconds")
         item["date"] = now.date().isoformat()
 
