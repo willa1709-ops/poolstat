@@ -2,6 +2,7 @@ const grid = document.querySelector('#grid');
 const summary = document.querySelector('#summary');
 const updated = document.querySelector('#updated');
 const reload = document.querySelector('#reload');
+let currentData = null;
 
 const preferredOrder = new Map([
   ['turnov-vysinka', 0],
@@ -26,9 +27,98 @@ function sortedPools(pools) {
   });
 }
 
-function stateFor(p) {
+
+function pragueNow(timeZone = 'Europe/Prague') {
+  const now = new Date();
+  try {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23'
+    });
+    const parts = Object.fromEntries(
+      fmt.formatToParts(now)
+        .filter(p => p.type !== 'literal')
+        .map(p => [p.type, p.value])
+    );
+    const weekdayMap = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
+    return {
+      date: `${parts.year}-${parts.month}-${parts.day}`,
+      weekday: weekdayMap[parts.weekday],
+      minutes: Number(parts.hour) * 60 + Number(parts.minute)
+    };
+  } catch {
+    const jsDay = now.getDay();
+    return {
+      date: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`,
+      weekday: jsDay === 0 ? 6 : jsDay - 1,
+      minutes: now.getHours() * 60 + now.getMinutes()
+    };
+  }
+}
+
+function hhmmToMinutes(value) {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(String(value || '').trim());
+  if (!m) return null;
+  const h = Number(m[1]);
+  const min = Number(m[2]);
+  if (h < 0 || h > 23 || min < 0 || min > 59) return null;
+  return h * 60 + min;
+}
+
+function parseHoursText(text) {
+  const re = /(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/g;
+  const out = [];
+  let match;
+  while ((match = re.exec(String(text || ''))) !== null) out.push([match[1], match[2]]);
+  return out;
+}
+
+function formatIntervals(intervals) {
+  if (!intervals || !intervals.length) return '—';
+  return intervals.map(([a, b]) => `${a}–${b}`).join(', ');
+}
+
+function scheduleForToday(p, clock) {
+  if (p.status === 'reconstruction') return [];
+
+  if (p.date === clock.date && p.public_hours_today) {
+    const detected = parseHoursText(p.public_hours_today);
+    if (detected.length || p.public_hours_today === '—') return detected;
+  }
+
+  if (p.weekly_hours && clock.weekday !== undefined) {
+    const weekly = p.weekly_hours[String(clock.weekday)];
+    if (Array.isArray(weekly)) return weekly;
+  }
+
+  if (p.date === clock.date) return parseHoursText(p.public_hours_today);
+  return [];
+}
+
+function liveState(p, clock) {
+  if (p.status === 'reconstruction') return { open: false, intervals: [] };
+  const intervals = scheduleForToday(p, clock);
+
+  for (const interval of intervals) {
+    const start = hhmmToMinutes(interval[0]);
+    const end = hhmmToMinutes(interval[1]);
+    if (start === null || end === null) continue;
+    if (clock.minutes >= start && clock.minutes < end) {
+      return { open: true, intervals };
+    }
+  }
+  return { open: false, intervals };
+}
+
+function stateFor(p, live) {
   if (p.status === 'reconstruction') return ['rekonstrukce', 'reconstruction'];
-  if (p.open_now) return ['otevřeno pro veřejnost', 'open'];
+  if (live.open) return ['otevřeno pro veřejnost', 'open'];
   return ['teď zavřeno', 'closed'];
 }
 
@@ -38,8 +128,8 @@ function laneLength(p) {
   return values.map(v => `${String(v).replace('.', ',')} m`).join(' + ');
 }
 
-function lanes(p) {
-  if (p.status === 'reconstruction') return '0';
+function lanes(p, live) {
+  if (p.status === 'reconstruction' || !live.open) return '0';
   if (p.free_lanes_now === null || p.free_lanes_now === undefined) return '?';
   return String(p.free_lanes_now);
 }
@@ -87,8 +177,9 @@ function detailsNote(text) {
   return details;
 }
 
-function card(p) {
-  const [label, cls] = stateFor(p);
+function card(p, clock) {
+  const live = liveState(p, clock);
+  const [label, cls] = stateFor(p, live);
   const article = node('article', 'card');
 
   const top = node('div', 'top');
@@ -101,18 +192,17 @@ function card(p) {
 
   const opening = p.status === 'reconstruction'
     ? `plán ${p.expected_opening || 'neuveden'}`
-    : (p.public_hours_today || '—');
-  const free = lanes(p);
+    : formatIntervals(live.intervals);
+  const free = lanes(p, live);
   const laneLabel = p.total_lanes ? `${free} / ${p.total_lanes}` : free;
 
   const stats = node('div', 'stats');
   stats.append(stat('Dnes veřejnost', opening, { primary: true }));
   stats.append(stat('Volné dráhy teď', laneLabel, { unknown: free === '?' }));
   stats.append(stat('Délka dráhy', laneLength(p)));
-  stats.append(stat('Drah celkem', p.total_lanes ?? '—'));
   article.append(stats);
 
-  if (p.warning) article.append(node('div', 'warning', p.warning));
+  if (p.warning && p.date === clock.date) article.append(node('div', 'warning', p.warning));
   if (p.source_fetch_ok === false) {
     article.append(node('div', 'warning', 'Noční kontrola oficiálního zdroje se nezdařila; zobrazen je uložený pravidelný rozvrh.'));
   }
@@ -138,6 +228,33 @@ function staleHours(generatedAt) {
   return (Date.now() - d.getTime()) / 3600000;
 }
 
+function renderData(data) {
+  if (!data || !Array.isArray(data.pools)) throw new Error('Neplatný formát dat');
+  currentData = data;
+
+  const clock = pragueNow(data.timezone || 'Europe/Prague');
+  const pools = sortedPools(data.pools);
+  grid.replaceChildren(...pools.map(p => card(p, clock)));
+
+  const open = pools.filter(p => liveState(p, clock).open).length;
+  const reconstruction = pools.filter(p => p.status === 'reconstruction').length;
+  summary.replaceChildren(
+    pill(`${open} právě otevřeno`),
+    pill(`${pools.length} sledovaných míst`),
+    pill(`${reconstruction} v rekonstrukci`)
+  );
+
+  const age = staleHours(data.generated_at);
+  if (age !== null && age > 30) {
+    summary.append(pill(`pozor: data jsou ${Math.floor(age)} h stará`));
+  }
+
+  const d = new Date(data.generated_at);
+  updated.textContent = Number.isNaN(d.getTime())
+    ? 'Čas aktualizace není známý'
+    : `Rozvrhy z noční kontroly: ${d.toLocaleString('cs-CZ')} · stav otevřeno/zavřeno počítán právě teď`;
+}
+
 async function load() {
   grid.setAttribute('aria-busy', 'true');
   reload.disabled = true;
@@ -154,28 +271,7 @@ async function load() {
     });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
-    if (!data || !Array.isArray(data.pools)) throw new Error('Neplatný formát dat');
-
-    const pools = sortedPools(data.pools);
-    grid.replaceChildren(...pools.map(card));
-
-    const open = pools.filter(p => p.open_now).length;
-    const reconstruction = pools.filter(p => p.status === 'reconstruction').length;
-    summary.replaceChildren(
-      pill(`${open} právě otevřeno`),
-      pill(`${pools.length} sledovaných míst`),
-      pill(`${reconstruction} v rekonstrukci`)
-    );
-
-    const age = staleHours(data.generated_at);
-    if (age !== null && age > 30) {
-      summary.append(pill(`pozor: data jsou ${Math.floor(age)} h stará`));
-    }
-
-    const d = new Date(data.generated_at);
-    updated.textContent = Number.isNaN(d.getTime())
-      ? 'Čas aktualizace není známý'
-      : `Data z noční kontroly: ${d.toLocaleString('cs-CZ')}`;
+    renderData(data);
   } catch (e) {
     const errorCard = node('article', 'card');
     errorCard.append(node('b', '', 'Data se nepodařilo načíst.'));
@@ -190,3 +286,7 @@ async function load() {
 
 reload.addEventListener('click', load);
 load();
+
+window.setInterval(() => {
+  if (currentData) renderData(currentData);
+}, 60000);
