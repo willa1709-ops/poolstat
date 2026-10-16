@@ -10,18 +10,23 @@
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <title>Přehled</title>
-  <link rel="stylesheet" href="./style.css?v=20261016-2">
+  <link rel="stylesheet" href="./style.css?v=20261016-3">
 </head>
 <body>
   <main class="wrap">
     <header>
       <div class="header-copy">
         <p class="eyebrow">PŘEHLED</p>
-        <h1>Kde si dnes zaplavat?</h1>
+        <h1 id="page-title">Kde si dnes zaplavat?</h1>
         <p class="lead">Časy pro veřejnost, počet a délka drah na jednom místě.</p>
       </div>
       <button id="reload" class="button" type="button">Načíst znovu</button>
     </header>
+
+    <nav class="tabs" role="tablist" aria-label="Den">
+      <button id="tab-today" class="tab active" type="button" role="tab" aria-selected="true">Dnes</button>
+      <button id="tab-tomorrow" class="tab" type="button" role="tab" aria-selected="false">Zítra</button>
+    </nav>
 
     <section class="summary" id="summary" aria-label="Souhrn"></section>
 
@@ -45,6 +50,6 @@
       <span>Neznámé údaje raději nezobrazujeme jako odhad.</span>
     </footer>
   </main>
-  <script src="./app.js?v=20261016-2" defer></script>
+  <script src="./app.js?v=20261016-3" defer></script>
 </body>
 </html>
