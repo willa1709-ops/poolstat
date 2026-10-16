@@ -2,7 +2,11 @@ const grid = document.querySelector('#grid');
 const summary = document.querySelector('#summary');
 const updated = document.querySelector('#updated');
 const reload = document.querySelector('#reload');
+const pageTitle = document.querySelector('#page-title');
+const tabToday = document.querySelector('#tab-today');
+const tabTomorrow = document.querySelector('#tab-tomorrow');
 let currentData = null;
+let currentView = 'today';
 
 const preferredOrder = new Map([
   ['turnov-vysinka', 0],
@@ -84,10 +88,23 @@ function formatIntervals(intervals) {
   return intervals.map(([a, b]) => `${a}–${b}`).join(', ');
 }
 
-function scheduleForToday(p, clock) {
+function shiftedClock(clock, days) {
+  const parts = String(clock.date || '').split('-').map(Number);
+  if (parts.length !== 3 || parts.some(Number.isNaN)) {
+    return { date: clock.date, weekday: (clock.weekday + days + 7) % 7, minutes: clock.minutes };
+  }
+  const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2] + days));
+  return {
+    date: `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`,
+    weekday: (clock.weekday + days + 7) % 7,
+    minutes: clock.minutes
+  };
+}
+
+function scheduleForDay(p, clock, useTodayExceptions) {
   if (p.status === 'reconstruction') return [];
 
-  if (p.date === clock.date && p.public_hours_today) {
+  if (useTodayExceptions && p.date === clock.date && p.public_hours_today) {
     const detected = parseHoursText(p.public_hours_today);
     if (detected.length || p.public_hours_today === '—') return detected;
   }
@@ -97,8 +114,16 @@ function scheduleForToday(p, clock) {
     if (Array.isArray(weekly)) return weekly;
   }
 
-  if (p.date === clock.date) return parseHoursText(p.public_hours_today);
+  if (useTodayExceptions && p.date === clock.date) return parseHoursText(p.public_hours_today);
   return [];
+}
+
+function scheduleForToday(p, clock) {
+  return scheduleForDay(p, clock, true);
+}
+
+function scheduleForTomorrow(p, clock) {
+  return scheduleForDay(p, shiftedClock(clock, 1), false);
 }
 
 function liveState(p, clock) {
@@ -120,6 +145,12 @@ function stateFor(p, live) {
   if (p.status === 'reconstruction') return ['rekonstrukce', 'reconstruction'];
   if (live.open) return ['otevřeno pro veřejnost', 'open'];
   return ['teď zavřeno', 'closed'];
+}
+
+function futureStateFor(p, intervals) {
+  if (p.status === 'reconstruction') return ['rekonstrukce', 'reconstruction'];
+  if (intervals.length) return ['veřejnost zítra', 'future'];
+  return ['zítra bez veřejnosti', 'closed'];
 }
 
 function laneLength(p) {
@@ -177,9 +208,11 @@ function detailsNote(text) {
   return details;
 }
 
-function card(p, clock) {
+function card(p, clock, view) {
+  const isTomorrow = view === 'tomorrow';
   const live = liveState(p, clock);
-  const [label, cls] = stateFor(p, live);
+  const tomorrowIntervals = isTomorrow ? scheduleForTomorrow(p, clock) : null;
+  const [label, cls] = isTomorrow ? futureStateFor(p, tomorrowIntervals) : stateFor(p, live);
   const article = node('article', 'card');
 
   const top = node('div', 'top');
@@ -190,19 +223,24 @@ function card(p, clock) {
   top.append(node('span', `state ${cls}`, label));
   article.append(top);
 
+  const intervals = isTomorrow ? tomorrowIntervals : live.intervals;
   const opening = p.status === 'reconstruction'
     ? `plán ${p.expected_opening || 'neuveden'}`
-    : formatIntervals(live.intervals);
-  const free = lanes(p, live);
-  const laneLabel = p.total_lanes ? `${free} / ${p.total_lanes}` : free;
+    : formatIntervals(intervals);
 
   const stats = node('div', 'stats');
-  stats.append(stat('Dnes veřejnost', opening, { primary: true }));
-  stats.append(stat('Volné dráhy teď', laneLabel, { unknown: free === '?' }));
+  stats.append(stat(isTomorrow ? 'Zítra veřejnost' : 'Dnes veřejnost', opening, { primary: true }));
+
+  if (!isTomorrow) {
+    const free = lanes(p, live);
+    const laneLabel = p.total_lanes ? `${free} / ${p.total_lanes}` : free;
+    stats.append(stat('Volné dráhy teď', laneLabel, { unknown: free === '?' }));
+  }
+
   stats.append(stat('Délka dráhy', laneLength(p)));
   article.append(stats);
 
-  if (p.warning && p.date === clock.date) article.append(node('div', 'warning', p.warning));
+  if (!isTomorrow && p.warning && p.date === clock.date) article.append(node('div', 'warning', p.warning));
   if (p.source_fetch_ok === false) {
     article.append(node('div', 'warning', 'Noční kontrola oficiálního zdroje se nezdařila; zobrazen je uložený pravidelný rozvrh.'));
   }
@@ -228,21 +266,42 @@ function staleHours(generatedAt) {
   return (Date.now() - d.getTime()) / 3600000;
 }
 
+function setActiveTab(view) {
+  const tomorrow = view === 'tomorrow';
+  tabToday.classList.toggle('active', !tomorrow);
+  tabTomorrow.classList.toggle('active', tomorrow);
+  tabToday.setAttribute('aria-selected', String(!tomorrow));
+  tabTomorrow.setAttribute('aria-selected', String(tomorrow));
+  pageTitle.textContent = tomorrow ? 'Kde si zítra zaplavat?' : 'Kde si dnes zaplavat?';
+}
+
 function renderData(data) {
   if (!data || !Array.isArray(data.pools)) throw new Error('Neplatný formát dat');
   currentData = data;
 
   const clock = pragueNow(data.timezone || 'Europe/Prague');
   const pools = sortedPools(data.pools);
-  grid.replaceChildren(...pools.map(p => card(p, clock)));
+  const isTomorrow = currentView === 'tomorrow';
+  setActiveTab(currentView);
+  grid.replaceChildren(...pools.map(p => card(p, clock, currentView)));
 
-  const open = pools.filter(p => liveState(p, clock).open).length;
   const reconstruction = pools.filter(p => p.status === 'reconstruction').length;
-  summary.replaceChildren(
-    pill(`${open} právě otevřeno`),
-    pill(`${pools.length} sledovaných míst`),
-    pill(`${reconstruction} v rekonstrukci`)
-  );
+
+  if (isTomorrow) {
+    const withPublic = pools.filter(p => p.status !== 'reconstruction' && scheduleForTomorrow(p, clock).length > 0).length;
+    summary.replaceChildren(
+      pill(`${withPublic} se zítřejším časem pro veřejnost`),
+      pill(`${pools.length} sledovaných míst`),
+      pill(`${reconstruction} v rekonstrukci`)
+    );
+  } else {
+    const open = pools.filter(p => liveState(p, clock).open).length;
+    summary.replaceChildren(
+      pill(`${open} právě otevřeno`),
+      pill(`${pools.length} sledovaných míst`),
+      pill(`${reconstruction} v rekonstrukci`)
+    );
+  }
 
   const age = staleHours(data.generated_at);
   if (age !== null && age > 30) {
@@ -252,7 +311,9 @@ function renderData(data) {
   const d = new Date(data.generated_at);
   updated.textContent = Number.isNaN(d.getTime())
     ? 'Čas aktualizace není známý'
-    : `Rozvrhy z noční kontroly: ${d.toLocaleString('cs-CZ')} · stav otevřeno/zavřeno počítán právě teď`;
+    : isTomorrow
+      ? `Rozvrhy z noční kontroly: ${d.toLocaleString('cs-CZ')} · zítřek podle týdenního rozvrhu`
+      : `Rozvrhy z noční kontroly: ${d.toLocaleString('cs-CZ')} · stav otevřeno/zavřeno počítán právě teď`;
 }
 
 async function load() {
@@ -283,6 +344,16 @@ async function load() {
     reload.textContent = 'Načíst znovu';
   }
 }
+
+tabToday.addEventListener('click', () => {
+  currentView = 'today';
+  if (currentData) renderData(currentData);
+});
+
+tabTomorrow.addEventListener('click', () => {
+  currentView = 'tomorrow';
+  if (currentData) renderData(currentData);
+});
 
 reload.addEventListener('click', load);
 load();
