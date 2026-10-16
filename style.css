@@ -85,6 +85,41 @@ h1 {
   outline-offset:2px;
 }
 
+
+.tabs {
+  display:inline-flex;
+  gap:4px;
+  padding:4px;
+  margin:0 0 14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+.tab {
+  min-width:96px;
+  min-height:42px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:var(--muted);
+  padding:8px 15px;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+}
+.tab.active {
+  background:var(--ink);
+  color:#fff;
+}
+.tab:focus-visible {
+  outline:3px solid rgba(20,33,43,.22);
+  outline-offset:2px;
+}
+.future {
+  background:#e9f0f5;
+  color:#38566c;
+}
+
 .summary {
   display:flex;
   gap:10px;
@@ -262,6 +297,17 @@ footer {
     width:100%;
     min-height:48px;
     font-size:15px;
+  }
+  .tabs {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    width:100%;
+    margin-bottom:12px;
+  }
+  .tab {
+    width:100%;
+    min-width:0;
+    min-height:46px;
   }
   .summary {
     flex-wrap:nowrap;
