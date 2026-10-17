@@ -337,10 +337,12 @@
       ]
     },
     "notes": "Krytý bazén má 5 drah. Časy mezi bloky jsou běžně vyhrazené školám nebo organizovaným skupinám.",
-    "lane_source_url": null,
+    "lane_source_url": "https://sokolovna.bazenmb.cz/obsazenost-drah/",
     "lane_lengths_m": [
       25
-    ]
+    ],
+    "lane_feed_url": "https://sokolovna.bazenmb.cz/obsazenost-drah/",
+    "lane_feed_kind": "sokolovna_official"
   },
   {
     "id": "praha-hloubetin",
