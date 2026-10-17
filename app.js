@@ -177,6 +177,7 @@ function liveFreeLanes(p, clock) {
 
 function lanes(p, live, clock) {
   if (p.status === 'reconstruction' || !live.open) return '0';
+  if (Number.isInteger(p.free_lanes_when_open)) return String(p.free_lanes_when_open);
   const current = liveFreeLanes(p, clock);
   return current === null ? '?' : String(current);
 }
