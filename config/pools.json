@@ -106,7 +106,8 @@
     "lane_source_url": "https://sportjablonec.isportsystem.cz/",
     "lane_lengths_m": [
       25
-    ]
+    ],
+    "lane_feed_url": "https://jduplavat.cz/koupaliste/bazen-sport-jablonec-nad-nisou"
   },
   {
     "id": "jicin",
@@ -179,7 +180,8 @@
     "lane_source_url": "https://www.sport-jicin.cz/koupani/aqua-centrum/bazeny-a-atrakce",
     "lane_lengths_m": [
       25
-    ]
+    ],
+    "lane_feed_url": "https://jduplavat.cz/koupaliste/aqua-centrum-jicin"
   },
   {
     "id": "liberec",
@@ -439,6 +441,7 @@
     "lane_source_url": "https://www.bazenhloubetin.eu/wp-content/uploads/2026/09/Hloubetin-bazen-plan-26-27.pdf",
     "lane_lengths_m": [
       25
-    ]
+    ],
+    "lane_feed_url": "https://jduplavat.cz/koupaliste/plavecky-areal-hloubetin"
   }
 ]
