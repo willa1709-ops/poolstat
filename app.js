@@ -159,10 +159,26 @@ function laneLength(p) {
   return values.map(v => `${String(v).replace('.', ',')} m`).join(' + ');
 }
 
-function lanes(p, live) {
+function liveFreeLanes(p, clock) {
+  const days = p.lane_availability && p.lane_availability.days;
+  const ranges = days && days[clock.date];
+  if (!Array.isArray(ranges)) return null;
+
+  for (const item of ranges) {
+    const start = hhmmToMinutes(item.from);
+    const end = item.to === '24:00' ? 1440 : hhmmToMinutes(item.to);
+    if (start === null || end === null) continue;
+    if (clock.minutes >= start && clock.minutes < end) {
+      return Number.isInteger(item.free) ? item.free : null;
+    }
+  }
+  return null;
+}
+
+function lanes(p, live, clock) {
   if (p.status === 'reconstruction' || !live.open) return '0';
-  if (p.free_lanes_now === null || p.free_lanes_now === undefined) return '?';
-  return String(p.free_lanes_now);
+  const current = liveFreeLanes(p, clock);
+  return current === null ? '?' : String(current);
 }
 
 function node(tag, className, text) {
@@ -232,7 +248,7 @@ function card(p, clock, view) {
   stats.append(stat(isTomorrow ? 'Zítra veřejnost' : 'Dnes veřejnost', opening, { primary: true }));
 
   if (!isTomorrow) {
-    const free = lanes(p, live);
+    const free = lanes(p, live, clock);
     const laneLabel = p.total_lanes ? `${free} / ${p.total_lanes}` : free;
     stats.append(stat('Volné dráhy teď', laneLabel, { unknown: free === '?' }));
   }
