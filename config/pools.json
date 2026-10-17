@@ -45,13 +45,14 @@
         ]
       ]
     },
-    "notes": "Veřejnost dle rozvrhu sezony 2026/27. Pátek je vyhrazen sportovnímu plavání.",
-    "lane_source_url": "https://calendar.google.com/calendar/embed?bgcolor=%23ffffff&color=%230F4B38&color=%235229A3&color=%23B1365F&color=%23B1440E&ctz=Europe%2FPrague&height=600&mode=WEEK&showTz=0&src=bqettkjududod4avmcdn83pc44%40group.calendar.google.com&src=f1rsuu7eiiiasjr9ula9siei4g%40group.calendar.google.com&src=it9gt2cnsiq3vma7qcc9m029t4%40group.calendar.google.com&src=kck840n1fbctjerc2ktlq0r24o%40group.calendar.google.com&title=Aktu%C3%A1ln%C3%AD+program+na+baz%C3%A9nu&wkst=2",
+    "notes": "Pro veřejnost dle provozní doby bazénu.",
+    "lane_source_url": null,
     "lane_lengths_m": [
       16.5
     ],
     "updates_url": "https://www.sportturnov.cz/sportoviste/bazen-vysinka/",
-    "updates_label": "Aktuality"
+    "updates_label": "Provozní doba",
+    "free_lanes_when_open": 4
   },
   {
     "id": "jablonec",
