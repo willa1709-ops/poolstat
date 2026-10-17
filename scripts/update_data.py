@@ -222,6 +222,87 @@ def parse_lane_feed(url: str, total_lanes: int | None, fetched_at: str):
         return None
 
 
+
+def parse_sokolovna_lane_feed(url: str, total_lanes: int | None, fetched_at: str):
+    """Parse the official Sokolovna 15-minute lane occupancy grid.
+
+    The page renders each quarter-hour cell with a stable data-nbr and stores
+    occupied cells in the hidden ds_week_data JSON. Cells not listed there are free.
+    """
+    if not total_lanes:
+        return None
+
+    html = fetch_html(url)
+    if not html:
+        return None
+
+    try:
+        soup = BeautifulSoup(html, "html.parser")
+        data_el = soup.select_one(".ds_week_data")
+        if not data_el:
+            return None
+
+        raw = data_el.get("value") or data_el.get_text()
+        actions = json.loads(raw)
+        occupied = set()
+        for action in actions:
+            for value in str(action.get("hours") or "").split(","):
+                value = value.strip()
+                if value.isdigit():
+                    occupied.add(int(value))
+
+        slots_by_day = {}
+        for cell in soup.select("td.ds_td_item[data-nbr][data-draha][data-date][data-hour][data-min]"):
+            try:
+                nbr = int(cell.get("data-nbr"))
+                lane = int(cell.get("data-draha"))
+                ts = int(cell.get("data-date"))
+                hour = int(cell.get("data-hour"))
+                minute = int(cell.get("data-min"))
+            except (TypeError, ValueError):
+                continue
+
+            if lane < 1 or lane > int(total_lanes):
+                continue
+            if not (0 <= hour <= 23 and minute in {0, 15, 30, 45}):
+                continue
+
+            day = datetime.fromtimestamp(ts, TZ).date().isoformat()
+            key = hour * 60 + minute
+            slots_by_day.setdefault(day, {}).setdefault(key, {})[lane] = nbr in occupied
+
+        days = {}
+        for day, by_minute in slots_by_day.items():
+            timeline = []
+            for minute in sorted(by_minute):
+                lane_states = by_minute[minute]
+                if len(lane_states) != int(total_lanes):
+                    continue
+
+                end = minute + 15
+                timeline.append({
+                    "from": f"{minute // 60:02d}:{minute % 60:02d}",
+                    "to": "24:00" if end == 1440 else f"{end // 60:02d}:{end % 60:02d}",
+                    "free": sum(1 for is_occupied in lane_states.values() if not is_occupied),
+                    "known_lanes": len(lane_states),
+                })
+
+            if timeline:
+                days[day] = merge_timeline(timeline)
+
+        if not days:
+            return None
+
+        return {
+            "source": "sokolovna.bazenmb.cz",
+            "source_url": url,
+            "fetched_at": fetched_at,
+            "days": days,
+        }
+    except Exception:
+        return None
+
+
 def free_lanes_at(lane_availability, now: datetime):
     if not lane_availability:
         return None
@@ -246,7 +327,7 @@ def main():
         item = {
             k: v
             for k, v in pool.items()
-            if k not in {"check_urls", "lane_feed_url"}
+            if k not in {"check_urls", "lane_feed_url", "lane_feed_kind"}
         }
         item["fetched_at"] = fetched_at
         item["date"] = now.date().isoformat()
@@ -281,11 +362,18 @@ def main():
 
         lane_availability = None
         if pool.get("lane_feed_url"):
-            lane_availability = parse_lane_feed(
-                pool["lane_feed_url"],
-                pool.get("total_lanes"),
-                fetched_at,
-            )
+            if pool.get("lane_feed_kind") == "sokolovna_official":
+                lane_availability = parse_sokolovna_lane_feed(
+                    pool["lane_feed_url"],
+                    pool.get("total_lanes"),
+                    fetched_at,
+                )
+            else:
+                lane_availability = parse_lane_feed(
+                    pool["lane_feed_url"],
+                    pool.get("total_lanes"),
+                    fetched_at,
+                )
 
         open_now, block = interval_state(intervals, now)
         free = free_lanes_at(lane_availability, now) if open_now else 0
