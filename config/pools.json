@@ -252,10 +252,12 @@
       ]
     },
     "notes": "25m sportovní bazén má 6 drah. Aktuality mohou dočasně uzavřít právě 25m bazén i při otevření zbytku areálu.",
-    "lane_source_url": "https://stepanka.bazenmb.cz/category/aktuality/",
+    "lane_source_url": "https://stepanka.bazenmb.cz/obsazenost/",
     "lane_lengths_m": [
       25
-    ]
+    ],
+    "lane_feed_url": "https://stepanka.bazenmb.cz/obsazenost/",
+    "lane_feed_kind": "mb_official_grid"
   },
   {
     "id": "mb-sokolovna",
@@ -342,7 +344,7 @@
       25
     ],
     "lane_feed_url": "https://sokolovna.bazenmb.cz/obsazenost-drah/",
-    "lane_feed_kind": "sokolovna_official"
+    "lane_feed_kind": "mb_official_grid"
   },
   {
     "id": "praha-hloubetin",
