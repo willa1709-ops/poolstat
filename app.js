@@ -263,7 +263,9 @@ function card(p, clock, view) {
   if (p.notes) article.append(detailsNote(p.notes));
 
   const links = node('div', 'links');
-  const source = externalLink('Oficiální zdroj ↗', p.source_url);
+  const infoUrl = p.updates_url || p.source_url;
+  const infoLabel = p.updates_url ? (p.updates_label || 'Aktuality') : 'Oficiální zdroj';
+  const source = externalLink(`${infoLabel} ↗`, infoUrl);
   const laneSource = externalLink('Rozpis drah ↗', p.lane_source_url);
   if (source) links.append(source);
   if (laneSource) links.append(laneSource);
