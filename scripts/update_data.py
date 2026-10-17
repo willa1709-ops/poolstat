@@ -223,8 +223,8 @@ def parse_lane_feed(url: str, total_lanes: int | None, fetched_at: str):
 
 
 
-def parse_sokolovna_lane_feed(url: str, total_lanes: int | None, fetched_at: str):
-    """Parse the official Sokolovna 15-minute lane occupancy grid.
+def parse_mb_official_lane_feed(url: str, total_lanes: int | None, fetched_at: str):
+    """Parse the official Mladá Boleslav 15-minute lane occupancy grid.
 
     The page renders each quarter-hour cell with a stable data-nbr and stores
     occupied cells in the hidden ds_week_data JSON. Cells not listed there are free.
@@ -294,7 +294,7 @@ def parse_sokolovna_lane_feed(url: str, total_lanes: int | None, fetched_at: str
             return None
 
         return {
-            "source": "sokolovna.bazenmb.cz",
+            "source": urlparse(url).hostname or "bazenmb.cz",
             "source_url": url,
             "fetched_at": fetched_at,
             "days": days,
@@ -362,8 +362,8 @@ def main():
 
         lane_availability = None
         if pool.get("lane_feed_url"):
-            if pool.get("lane_feed_kind") == "sokolovna_official":
-                lane_availability = parse_sokolovna_lane_feed(
+            if pool.get("lane_feed_kind") == "mb_official_grid":
+                lane_availability = parse_mb_official_lane_feed(
                     pool["lane_feed_url"],
                     pool.get("total_lanes"),
                     fetched_at,
