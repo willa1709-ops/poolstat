@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: pip install --disable-pip-version-check -r requirements.txt
 
-      - name: Debug Sokolovna lanes
-        run: python scripts/debug_sokolovna.py
-
       - name: Update pool data
         run: python scripts/update_data.py
 
