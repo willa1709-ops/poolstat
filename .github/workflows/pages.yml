@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: pip install --disable-pip-version-check -r requirements.txt
 
+      - name: Debug Turnov calendar
+        run: python scripts/debug_turnov_cal.py
+
       - name: Update pool data
         run: python scripts/update_data.py
 
