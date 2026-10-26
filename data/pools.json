@@ -10,7 +10,7 @@
       "source_url": "https://www.sportturnov.cz/sportoviste/bazen-vysinka/",
       "source_kind": "official_html",
       "notes": "Veřejnost dle rozvrhu sezony 2026/27. Pátek je vyhrazen sportovnímu plavání.",
-      "lane_source_url": "https://calendar.google.com/calendar/embed?bgcolor=%23ffffff&color=%230F4B38&color=%235229A3&color=%23B1365F&color=%23B1440E&ctz=Europe%2FPrague&height=600&mode=WEEK&showTz=0&src=bqettkjududod4avmcdn83pc44%40group.calendar.google.com&src=f1rsuu7eiiiasjr9ula9siei4g%40group.calendar.google.com&src=it9gt2cnsiq3vma7qcc9m029t4%40group.calendar.google.com&src=kck840n1fbctjerc2ktlq0r24o%40group.calendar.google.com&title=Aktu%C3%A1ln%C3%AD+program+na+baz%C3%A9nu&wkst=2",
+      "lane_source_url": null,
       "lane_lengths_m": [
         16.5
       ],
@@ -22,17 +22,14 @@
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
-      "warning": null,
-      "updates_url": "https://www.sportturnov.cz/sportoviste/bazen-vysinka/",
-      "updates_label": "Provozní doba",
-      "lane_source_label": "Kalendář"
+      "warning": null
     },
     {
       "id": "jablonec",
       "name": "Městský plavecký bazén",
       "city": "Jablonec nad Nisou",
       "total_lanes": 8,
-      "source_url": "https://www.sportjablonec.cz/cs/bazen",
+      "source_url": "https://www.sportjablonec.cz/cs/bazen/plavecky-bazen",
       "source_kind": "official_html",
       "notes": "O víkendech 8:00–10:00 může platit omezená kapacita. Sledují se i plánované změny provozu.",
       "lane_source_url": "https://sportjablonec.isportsystem.cz/",
@@ -47,9 +44,7 @@
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
-      "warning": null,
-      "updates_url": "https://www.sportjablonec.cz/cs/bazen",
-      "updates_label": "Aktuality"
+      "warning": null
     },
     {
       "id": "jicin",
@@ -59,7 +54,7 @@
       "source_url": "https://www.sport-jicin.cz/koupani/aqua-centrum/bazeny-a-atrakce",
       "source_kind": "official_html",
       "notes": "Aqua centrum publikuje rezervace jednotlivých drah; běžný provoz od 7. 9. 2026.",
-      "lane_source_url": "https://sport-jicin.isportsystem.cz/?op=tab-id-44",
+      "lane_source_url": "https://www.sport-jicin.cz/koupani/aqua-centrum/bazeny-a-atrakce",
       "lane_lengths_m": [
         25
       ],
@@ -71,9 +66,7 @@
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
-      "warning": null,
-      "updates_url": "https://www.sport-jicin.cz/koupani/aqua-centrum",
-      "updates_label": "Aktuality"
+      "warning": null
     },
     {
       "id": "liberec",
@@ -108,7 +101,7 @@
       "source_url": "https://stepanka.bazenmb.cz/",
       "source_kind": "official_html",
       "notes": "25m sportovní bazén má 6 drah. Aktuality mohou dočasně uzavřít právě 25m bazén i při otevření zbytku areálu.",
-      "lane_source_url": "https://stepanka.bazenmb.cz/obsazenost/",
+      "lane_source_url": "https://stepanka.bazenmb.cz/category/aktuality/",
       "lane_lengths_m": [
         25
       ],
@@ -120,19 +113,17 @@
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
-      "warning": null,
-      "updates_url": "https://stepanka.bazenmb.cz/category/aktuality/",
-      "updates_label": "Aktuality"
+      "warning": null
     },
     {
       "id": "mb-sokolovna",
       "name": "Bazén Sokolovna",
       "city": "Mladá Boleslav",
       "total_lanes": 5,
-      "source_url": "https://sokolovna.bazenmb.cz/",
+      "source_url": "https://sokolovna.bazenmb.cz/kontakt/",
       "source_kind": "official_html",
       "notes": "Krytý bazén má 5 drah. Časy mezi bloky jsou běžně vyhrazené školám nebo organizovaným skupinám.",
-      "lane_source_url": "https://sokolovna.bazenmb.cz/obsazenost-drah/",
+      "lane_source_url": null,
       "lane_lengths_m": [
         25
       ],
@@ -144,9 +135,7 @@
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
-      "warning": null,
-      "updates_url": "https://sokolovna.bazenmb.cz/aktuality/",
-      "updates_label": "Aktuality"
+      "warning": null
     },
     {
       "id": "praha-hloubetin",
@@ -168,9 +157,7 @@
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
-      "warning": null,
-      "updates_url": "https://www.bazenhloubetin.eu/category/omezeni/",
-      "updates_label": "Omezení"
+      "warning": null
     }
   ],
   "notice": "Počet volných drah se zobrazuje jen tehdy, když jej lze spolehlivě doložit ze zdroje. Neznámá hodnota se neodhaduje."
