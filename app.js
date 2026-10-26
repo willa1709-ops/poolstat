@@ -264,11 +264,14 @@ function card(p, clock, view) {
   if (p.notes) article.append(detailsNote(p.notes));
 
   const links = node('div', 'links');
-  const infoUrl = p.updates_url || p.source_url;
-  const infoLabel = p.updates_url ? (p.updates_label || 'Aktuality') : 'Oficiální zdroj';
-  const source = externalLink(`${infoLabel} ↗`, infoUrl);
+  const source = externalLink('Oficiální zdroj ↗', p.source_url);
+  const updates = p.updates_url && p.updates_url !== p.source_url
+    ? externalLink(`${p.updates_label || 'Aktuality'} ↗`, p.updates_url)
+    : null;
+  const primary = updates || (p.updates_url ? externalLink(`${p.updates_label || 'Aktuality'} ↗`, p.updates_url) : source);
   const laneSource = externalLink(`${p.lane_source_label || 'Rozpis drah'} ↗`, p.lane_source_url);
-  if (source) links.append(source);
+  if (primary) links.append(primary);
+  if (source && primary !== source && (!p.updates_url || p.updates_url !== p.source_url)) links.append(source);
   if (laneSource) links.append(laneSource);
   if (links.childElementCount) article.append(links);
 
