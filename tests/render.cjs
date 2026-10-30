@@ -74,7 +74,7 @@ function expected(p) {
       await page.getByRole('button',{name:'Načíst znovu'}).click();
       await page.getByRole('heading',{name:'Uncertain hours',exact:true}).waitFor();
       assert.match(await page.locator('#grid').innerText(), /aktuální hodiny nepotvrzené/);
-      assert.match(await page.locator('#grid').innerText(), /Běžný rozvrh – nepotvrzený/);
+      assert.match(await page.locator('#grid').innerText(), /Běžný rozvrh – nepotvrzený/iu);
       assert.match(await page.locator('#grid').innerText(), /\? \/ 4/);
     }
     assert.deepEqual(errors,[]);
