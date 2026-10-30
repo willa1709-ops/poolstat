@@ -129,6 +129,7 @@ function scheduleForTomorrow(p, clock) {
 function liveState(p, clock) {
   if (p.status === 'reconstruction') return { open: false, intervals: [] };
   const intervals = scheduleForToday(p, clock);
+  if (p.hours_uncertain && p.date === clock.date) return { open: false, uncertain: true, intervals };
 
   for (const interval of intervals) {
     const start = hhmmToMinutes(interval[0]);
@@ -143,6 +144,7 @@ function liveState(p, clock) {
 
 function stateFor(p, live) {
   if (p.status === 'reconstruction') return ['rekonstrukce', 'reconstruction'];
+  if (live.uncertain) return ['aktuální hodiny nepotvrzené', 'unknown'];
   if (live.open) return ['otevřeno pro veřejnost', 'open'];
   return ['teď zavřeno', 'closed'];
 }
@@ -176,6 +178,7 @@ function liveFreeLanes(p, clock) {
 }
 
 function lanes(p, live, clock) {
+  if (live.uncertain) return '?';
   if (p.status === 'reconstruction' || !live.open) return '0';
   if (Number.isInteger(p.free_lanes_when_open)) return String(p.free_lanes_when_open);
   const current = liveFreeLanes(p, clock);
@@ -246,7 +249,7 @@ function card(p, clock, view) {
     : formatIntervals(intervals);
 
   const stats = node('div', 'stats');
-  stats.append(stat(isTomorrow ? 'Zítra veřejnost' : 'Dnes veřejnost', opening, { primary: true }));
+  stats.append(stat(isTomorrow ? 'Zítra veřejnost' : live.uncertain ? 'Běžný rozvrh – nepotvrzený' : 'Dnes veřejnost', opening, { primary: true }));
 
   if (!isTomorrow) {
     const free = lanes(p, live, clock);
