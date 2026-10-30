@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from urllib.parse import urlparse
-from datetime import datetime, time
+from datetime import date, datetime, time
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -104,22 +104,46 @@ def detect_exception(pool, text: str | None, now: datetime):
         rf"{d.day:02d}\s*[./-]\s*{d.month:02d}\s*[./-]\s*{str(d.year)[-2:]}",
         rf"{d.day}\s*\.\s*{d.month}\s*\."
     ]
-    if not any(re.search(p, text, flags=re.I) for p in date_patterns):
+
+    # Limit closure/hour interpretation to the dated announcement, not the whole page.
+    range_re = re.compile(r"(\d{1,2})\s*\.\s*[–-]\s*(\d{1,2})\s*\.\s*(\d{1,2})\s*\.\s*(\d{4})")
+    matches = []
+    for match in range_re.finditer(text):
+        try:
+            start = date(int(match[4]), int(match[3]), int(match[1]))
+            end = date(int(match[4]), int(match[3]), int(match[2]))
+        except ValueError:
+            continue
+        if start <= d <= end:
+            matches.append(match)
+    single_re = re.compile(r"(?<![\d.])(\d{1,2})\s*\.\s*(\d{1,2})\s*\.\s*(\d{4})(?!\d)")
+    for match in single_re.finditer(text):
+        try:
+            if date(int(match[3]), int(match[2]), int(match[1])) == d:
+                matches.append(match)
+        except ValueError:
+            continue
+    if not matches and not any(re.search(p, text, flags=re.I) for p in date_patterns):
         return None
-
-    window = text.lower()
-    closed_words = ["uzavřen", "uzavřeno", "zavřen", "odstávk", "mimo provoz"]
-    if any(w in window for w in closed_words):
-        return {"kind": "warning", "message": "Oficiální web zmiňuje pro dnešek uzavření/odstávku; ověřte detail ve zdroji."}
-
-    m = re.search(
-        rf"{d.day:02d}[./]{d.month:02d}[./](?:{str(d.year)[-2:]}|{d.year}).{{0,120}}?(\d{{1,2}}:\d{{2}})\s*[–-]\s*(\d{{1,2}}:\d{{2}})",
-        text,
-        flags=re.I,
-    )
-    if m:
-        return {"kind": "hours", "intervals": [[m.group(1).zfill(5), m.group(2).zfill(5)]]}
-    return {"kind": "warning", "message": "Oficiální web obsahuje dnešní mimořádnou informaci; automat ji nedokázal bezpečně vyložit."}
+    candidates = []
+    closure_mentioned = False
+    for match in matches:
+        fragment = text[match.end():match.end() + 240]
+        next_date = single_re.search(fragment)
+        if next_date:
+            fragment = fragment[:next_date.start()]
+        if re.search(r"uzavřen|uzavřeno|zavřen|odstávk|mimo provoz", fragment, re.I):
+            closure_mentioned = True
+        hours = re.search(r"(?:otevřeno|provozní doba)[^.!?]{0,60}?(\d{1,2})[.:](\d{2})\s*[–-]\s*(\d{1,2})[.:](\d{2})", fragment, re.I)
+        if hours:
+            start = f"{int(hours[1]):02d}:{hours[2]}"
+            end = f"{int(hours[3]):02d}:{hours[4]}"
+            sm, em = hhmm_minutes(start), hhmm_minutes(end)
+            if sm is not None and em is not None and sm < em and em < 1440:
+                candidates.append([[start, end]])
+    if not closure_mentioned and candidates and all(x == candidates[0] for x in candidates):
+        return {"kind": "hours", "intervals": candidates[0]}
+    return {"kind": "warning", "message": "Oficiální web obsahuje dnešní mimořádnou informaci; aktuální hodiny nejsou potvrzené. Ověřte je ve zdroji."}
 
 
 def merge_timeline(items):
@@ -347,11 +371,14 @@ def main():
             continue
 
         intervals = pool.get("weekly_hours", {}).get(weekday, [])
-        check_urls = pool.get("check_urls") or [pool["source_url"]]
+        check_urls = list(pool.get("check_urls") or [pool["source_url"]])
+        if pool.get("updates_url"):
+            check_urls.append(pool["updates_url"])
+        check_urls = list(dict.fromkeys(check_urls))
         fetched_texts = [fetch_text(url) for url in check_urls]
         valid_texts = [text for text in fetched_texts if text]
         text = " ".join(valid_texts) if valid_texts else None
-        item["source_fetch_ok"] = bool(valid_texts)
+        item["source_fetch_ok"] = len(valid_texts) == len(check_urls)
 
         exc = detect_exception(pool, text, now)
         warning = None
@@ -360,6 +387,7 @@ def main():
         elif exc and exc["kind"] == "warning":
             warning = exc["message"]
 
+        item["hours_uncertain"] = bool(warning)
         lane_availability = None
         if pool.get("lane_feed_url"):
             if pool.get("lane_feed_kind") == "mb_official_grid":
@@ -377,13 +405,15 @@ def main():
 
         open_now, block = interval_state(intervals, now)
         free = free_lanes_at(lane_availability, now) if open_now else 0
+        if item["hours_uncertain"]:
+            open_now, block, free = None, None, None
 
         item.update({
             "open_now": open_now,
             "public_hours_today": fmt_intervals(intervals),
             "current_public_block": block,
             "free_lanes_now": free,
-            "lane_data_status": "unknown" if open_now and free is None else ("closed" if not open_now else "live"),
+            "lane_data_status": "unknown" if item["hours_uncertain"] or (open_now and free is None) else ("closed" if not open_now else "live"),
             "warning": warning,
             "lane_availability": lane_availability,
         })

@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+  pull_request:
+
   workflow_dispatch:
 
   schedule:
@@ -17,7 +19,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -36,8 +38,25 @@ jobs:
       - name: Install dependencies
         run: pip install --disable-pip-version-check -r requirements.txt
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate configuration and regression tests
+        run: |
+          python scripts/check_links.py
+          python -m unittest discover -s tests
+          npm ci
+          npx playwright install --with-deps chromium
+          npm test
+
       - name: Update pool data
         run: python scripts/update_data.py
+
+      - name: Validate generated data
+        run: |
+          python scripts/check_links.py --data data/pools.json
+          DATA_FILE=data/pools.json npm test
 
       - name: Prepare site
         run: |
@@ -46,14 +65,17 @@ jobs:
           cp data/pools.json _site/data/
 
       - name: Configure Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v6
 
       - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
 
@@ -65,3 +87,31 @@ jobs:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify deployed page
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm test
+
+  external-links:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Report external availability
+        run: python scripts/check_availability.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: link-availability
+          path: link-availability.json
