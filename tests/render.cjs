@@ -35,11 +35,16 @@ function expected(p) {
     const response = await page.goto(base);
     assert.equal(response.status(),200);
     if (remote) {
-      const payloadResponse = await page.request.get(new URL('data/pools.json',base).href);
+      const dataUrl = new URL('data/pools.json',base);
+      dataUrl.searchParams.set('ts', String(Date.now()));
+      const payloadResponse = await page.request.get(dataUrl.href);
       assert.ok(payloadResponse.ok());
       const payload = await payloadResponse.json();
       const age = Date.now() - Date.parse(payload.generated_at);
       assert.ok(Number.isFinite(age) && age >= -300000 && age < 30*3600000, 'Published data must be fresh');
+      if (process.env.EXPECTED_GENERATED_AT) {
+        assert.equal(payload.generated_at, process.env.EXPECTED_GENERATED_AT, 'Pages must serve this workflow\'s validated snapshot');
+      }
       assert.deepEqual(payload.pools.map(p=>p.id).sort(),config.map(p=>p.id).sort());
     }
     await page.locator('#grid .card').nth(config.length-1).waitFor();

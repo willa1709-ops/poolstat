@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import argparse
 import json
+import os
 import re
+import tempfile
 from urllib.parse import urlparse
 from datetime import date, datetime, time
 from pathlib import Path
@@ -9,6 +12,11 @@ from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
+
+if __package__:
+    from .check_links import validate_config, validate_refresh
+else:
+    from check_links import validate_config, validate_refresh
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config" / "pools.json"
@@ -340,8 +348,10 @@ def free_lanes_at(lane_availability, now: datetime):
     return None
 
 
-def main():
+def main(output: Path | None = None):
+    output = output if output is not None else OUT
     pools = json.loads(CONFIG.read_text(encoding="utf-8"))
+    validate_config(pools)
     now = datetime.now(TZ)
     fetched_at = now.isoformat(timespec="seconds")
     weekday = str(now.weekday())
@@ -425,10 +435,25 @@ def main():
         "pools": result,
         "notice": "Volné dráhy se zobrazí jen tam, kde má každá dráha pro daný čas explicitní stav. Chybějící data se neodhadují."
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {OUT}")
+    validate_refresh(pools, payload)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=output.parent,
+                                         prefix=f'.{output.name}.', delete=False) as stream:
+            temporary = Path(stream.name)
+            stream.write(json.dumps(payload, ensure_ascii=False, indent=2))
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.chmod(temporary, output.stat().st_mode & 0o777 if output.exists() else 0o644)
+        os.replace(temporary, output)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+    print(f"Wrote {output}")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Fetch and atomically save a complete, validated pool snapshot.')
+    parser.add_argument('--output', type=Path, help='Candidate output path; defaults to data/pools.json')
+    main(parser.parse_args().output)

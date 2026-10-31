@@ -10,21 +10,24 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "15 3 * * *"
+    - cron: "0 6 * * *"
       timezone: "Europe/Prague"
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+    outputs:
+      generated_at: ${{ steps.data.outputs.generated_at }}
 
     steps:
       - name: Checkout
@@ -50,13 +53,31 @@ jobs:
           npx playwright install --with-deps chromium
           npm test
 
-      - name: Update pool data
-        run: python scripts/update_data.py
+      - name: Generate candidate pool data
+        run: python scripts/update_data.py --output .tmp/pools.candidate.json
 
       - name: Validate generated data
         run: |
-          python scripts/check_links.py --data data/pools.json
-          DATA_FILE=data/pools.json npm test
+          python scripts/check_links.py --require-live --data .tmp/pools.candidate.json
+          DATA_FILE=.tmp/pools.candidate.json npm test
+
+      - name: Accept validated snapshot
+        id: data
+        run: |
+          mv .tmp/pools.candidate.json data/pools.json
+          python -c 'import json, os; from pathlib import Path; data = json.loads(Path("data/pools.json").read_text()); Path(os.environ["GITHUB_OUTPUT"]).open("a").write("generated_at=" + data["generated_at"] + "\n")'
+
+      - name: Commit updated pool data
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        id: commit
+        run: |
+          git add -- data/pools.json
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Refresh daily pool data'
+            git push origin HEAD:main
+          fi
 
       - name: Prepare site
         run: |
@@ -65,19 +86,25 @@ jobs:
           cp data/pools.json _site/data/
 
       - name: Configure Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v6
 
       - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
   deploy:
-    if: github.event_name != 'pull_request'
+    # GITHUB_TOKEN commits do not trigger another push workflow. Deploy the
+    # validated/committed snapshot in this same run instead.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
 
     environment:
       name: github-pages
@@ -95,6 +122,7 @@ jobs:
       - name: Verify deployed page
         env:
           SITE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED_GENERATED_AT: ${{ needs.build.outputs.generated_at }}
         run: |
           npm ci
           npx playwright install --with-deps chromium

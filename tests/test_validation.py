@@ -42,15 +42,13 @@ class ValidationTests(unittest.TestCase):
             self.assertEqual(result, {'kind': 'hours', 'intervals': [['10:00', '21:00']]})
         self.assertIsNone(detect_exception({}, text, datetime(2026, 10, 31)))
 
-    def test_generated_payload(self):
+    def test_failed_fetch_does_not_create_payload(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'pools.json'
             with patch.object(update_data, 'OUT', output), patch.object(update_data, 'fetch_text', return_value=None), patch.object(update_data, 'fetch_html', return_value=None):
-                update_data.main()
-            payload = json.loads(output.read_text())
-            validate_payload(CONFIG, payload)
-            self.assertEqual(len(payload['pools']), 7)
-            self.assertFalse(payload['pools'][0]['source_fetch_ok'])
+                with self.assertRaisesRegex(ValueError, 'official source could not be fetched'):
+                    update_data.main()
+            self.assertFalse(output.exists())
 
     def test_ambiguous_notice(self):
         result = detect_exception({}, 'Dne 30. 10. 2026 změna provozu, ověřte telefonicky.', datetime(2026, 10, 30))
