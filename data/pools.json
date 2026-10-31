@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T09:06:59+01:00",
+  "generated_at": "2026-10-31T09:40:58+01:00",
   "timezone": "Europe/Prague",
   "pools": [
     {
@@ -57,7 +57,7 @@
       "updates_label": "Provozní doba",
       "free_lanes_when_open": 4,
       "lane_source_label": "Kalendář",
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": true,
       "hours_uncertain": false,
@@ -127,7 +127,7 @@
       ],
       "updates_url": "https://www.sportjablonec.cz/cs/bazen",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": true,
       "hours_uncertain": false,
@@ -140,7 +140,7 @@
       "lane_availability": {
         "source": "jduplavat.cz",
         "source_url": "https://jduplavat.cz/koupaliste/bazen-sport-jablonec-nad-nisou",
-        "fetched_at": "2026-10-31T09:06:59+01:00",
+        "fetched_at": "2026-10-31T09:40:58+01:00",
         "days": {
           "2026-10-31": [
             {
@@ -753,7 +753,7 @@
       ],
       "updates_url": "https://www.sport-jicin.cz/koupani/aqua-centrum",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": true,
       "hours_uncertain": false,
@@ -766,7 +766,7 @@
       "lane_availability": {
         "source": "jduplavat.cz",
         "source_url": "https://jduplavat.cz/koupaliste/aqua-centrum-jicin",
-        "fetched_at": "2026-10-31T09:06:59+01:00",
+        "fetched_at": "2026-10-31T09:40:58+01:00",
         "days": {
           "2026-10-31": [
             {
@@ -1003,7 +1003,7 @@
         50,
         25
       ],
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": null,
       "open_now": false,
@@ -1072,7 +1072,7 @@
       ],
       "updates_url": "https://stepanka.bazenmb.cz/category/aktuality/",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": true,
       "hours_uncertain": false,
@@ -1085,7 +1085,7 @@
       "lane_availability": {
         "source": "stepanka.bazenmb.cz",
         "source_url": "https://stepanka.bazenmb.cz/obsazenost/",
-        "fetched_at": "2026-10-31T09:06:59+01:00",
+        "fetched_at": "2026-10-31T09:40:58+01:00",
         "days": {
           "2026-10-26": [
             {
@@ -1532,7 +1532,7 @@
       ],
       "updates_url": "https://sokolovna.bazenmb.cz/aktuality/",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": true,
       "hours_uncertain": false,
@@ -1545,7 +1545,7 @@
       "lane_availability": {
         "source": "sokolovna.bazenmb.cz",
         "source_url": "https://sokolovna.bazenmb.cz/obsazenost-drah/",
-        "fetched_at": "2026-10-31T09:06:59+01:00",
+        "fetched_at": "2026-10-31T09:40:58+01:00",
         "days": {
           "2026-10-26": [
             {
@@ -1920,7 +1920,7 @@
       ],
       "updates_url": "https://www.bazenhloubetin.eu/category/omezeni/",
       "updates_label": "Omezení",
-      "fetched_at": "2026-10-31T09:06:59+01:00",
+      "fetched_at": "2026-10-31T09:40:58+01:00",
       "date": "2026-10-31",
       "source_fetch_ok": true,
       "hours_uncertain": false,
@@ -1933,7 +1933,7 @@
       "lane_availability": {
         "source": "jduplavat.cz",
         "source_url": "https://jduplavat.cz/koupaliste/plavecky-areal-hloubetin",
-        "fetched_at": "2026-10-31T09:06:59+01:00",
+        "fetched_at": "2026-10-31T09:40:58+01:00",
         "days": {
           "2026-10-31": [
             {
