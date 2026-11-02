@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T12:45:29+01:00",
+  "generated_at": "2026-11-02T14:18:27+01:00",
   "timezone": "Europe/Prague",
   "pools": [
     {
@@ -57,12 +57,12 @@
       "updates_label": "Provozní doba",
       "free_lanes_when_open": 4,
       "lane_source_label": "Kalendář",
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": true,
       "hours_uncertain": false,
       "open_now": false,
-      "public_hours_today": "14:00–19:00",
+      "public_hours_today": "06:30–07:30",
       "current_public_block": null,
       "free_lanes_now": 0,
       "lane_data_status": "closed",
@@ -127,53 +127,21 @@
       ],
       "updates_url": "https://www.sportjablonec.cz/cs/bazen",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": true,
       "hours_uncertain": false,
       "open_now": true,
-      "public_hours_today": "08:00–20:00",
-      "current_public_block": "08:00–20:00",
+      "public_hours_today": "06:00–21:30",
+      "current_public_block": "06:00–21:30",
       "free_lanes_now": 8,
       "lane_data_status": "live",
       "warning": null,
       "lane_availability": {
         "source": "jduplavat.cz",
         "source_url": "https://jduplavat.cz/koupaliste/bazen-sport-jablonec-nad-nisou",
-        "fetched_at": "2026-11-01T12:45:29+01:00",
+        "fetched_at": "2026-11-02T14:18:27+01:00",
         "days": {
-          "2026-11-01": [
-            {
-              "from": "08:00",
-              "to": "09:00",
-              "free": 8,
-              "known_lanes": 8
-            },
-            {
-              "from": "09:00",
-              "to": "10:30",
-              "free": 4,
-              "known_lanes": 8
-            },
-            {
-              "from": "10:30",
-              "to": "17:00",
-              "free": 8,
-              "known_lanes": 8
-            },
-            {
-              "from": "17:00",
-              "to": "18:30",
-              "free": 4,
-              "known_lanes": 8
-            },
-            {
-              "from": "18:30",
-              "to": "20:00",
-              "free": 8,
-              "known_lanes": 8
-            }
-          ],
           "2026-11-02": [
             {
               "from": "06:00",
@@ -184,13 +152,13 @@
             {
               "from": "07:00",
               "to": "07:30",
-              "free": 8,
+              "free": 7,
               "known_lanes": 8
             },
             {
               "from": "07:30",
               "to": "08:00",
-              "free": 5,
+              "free": 4,
               "known_lanes": 8
             },
             {
@@ -597,30 +565,470 @@
           "2026-11-08": [
             {
               "from": "08:00",
-              "to": "08:30",
+              "to": "17:00",
               "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:00",
+              "to": "18:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:00",
+              "to": "19:00",
+              "free": 5,
+              "known_lanes": 8
+            },
+            {
+              "from": "19:00",
+              "to": "20:00",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-09": [
+            {
+              "from": "06:00",
+              "to": "07:00",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:00",
+              "to": "07:30",
+              "free": 7,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:30",
+              "to": "08:00",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:00",
+              "to": "09:30",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "09:30",
+              "to": "10:30",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "10:30",
+              "to": "13:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "13:00",
+              "to": "15:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "15:30",
+              "to": "17:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:00",
+              "to": "18:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:00",
+              "to": "18:30",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:30",
+              "to": "20:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "20:00",
+              "to": "20:30",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "20:30",
+              "to": "21:00",
+              "free": 7,
+              "known_lanes": 8
+            },
+            {
+              "from": "21:00",
+              "to": "21:30",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-10": [
+            {
+              "from": "06:00",
+              "to": "07:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:00",
+              "to": "07:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:30",
+              "to": "08:00",
+              "free": 5,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:00",
+              "to": "08:30",
+              "free": 2,
               "known_lanes": 8
             },
             {
               "from": "08:30",
-              "to": "10:00",
+              "to": "10:30",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "10:30",
+              "to": "11:00",
               "free": 6,
               "known_lanes": 8
             },
             {
-              "from": "10:00",
-              "to": "13:30",
-              "free": 8,
+              "from": "11:00",
+              "to": "14:00",
+              "free": 5,
               "known_lanes": 8
             },
             {
-              "from": "13:30",
+              "from": "14:00",
               "to": "14:30",
-              "free": 6,
+              "free": 7,
               "known_lanes": 8
             },
             {
               "from": "14:30",
+              "to": "15:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "15:30",
+              "to": "16:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "16:00",
+              "to": "17:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:00",
+              "to": "18:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:00",
+              "to": "18:30",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:30",
+              "to": "19:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "19:00",
+              "to": "19:30",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "19:30",
+              "to": "20:00",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "20:00",
+              "to": "21:30",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-11": [
+            {
+              "from": "06:00",
+              "to": "07:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:00",
+              "to": "08:00",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:00",
+              "to": "12:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "12:00",
+              "to": "14:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "14:30",
+              "to": "15:30",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "15:30",
+              "to": "16:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "16:00",
+              "to": "17:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:00",
+              "to": "18:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:00",
+              "to": "18:30",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "18:30",
+              "to": "19:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "19:00",
+              "to": "20:30",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "20:30",
+              "to": "21:30",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-12": [
+            {
+              "from": "06:00",
+              "to": "06:30",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "06:30",
+              "to": "07:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:00",
+              "to": "07:30",
+              "free": 7,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:30",
+              "to": "08:00",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:00",
+              "to": "08:30",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:30",
+              "to": "13:00",
+              "free": 5,
+              "known_lanes": 8
+            },
+            {
+              "from": "13:00",
+              "to": "14:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "14:00",
+              "to": "15:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "15:30",
+              "to": "16:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "16:00",
+              "to": "17:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:00",
+              "to": "17:30",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:30",
+              "to": "19:00",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "19:00",
+              "to": "20:00",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "20:00",
+              "to": "21:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "21:00",
+              "to": "21:30",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-13": [
+            {
+              "from": "06:00",
+              "to": "07:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "07:00",
+              "to": "08:00",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:00",
+              "to": "08:30",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "08:30",
+              "to": "09:30",
+              "free": 2,
+              "known_lanes": 8
+            },
+            {
+              "from": "09:30",
+              "to": "10:00",
+              "free": 5,
+              "known_lanes": 8
+            },
+            {
+              "from": "10:00",
+              "to": "13:00",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "13:00",
+              "to": "15:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "15:30",
+              "to": "17:00",
+              "free": 4,
+              "known_lanes": 8
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "free": 3,
+              "known_lanes": 8
+            },
+            {
+              "from": "19:30",
+              "to": "21:30",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-14": [
+            {
+              "from": "08:00",
+              "to": "21:30",
+              "free": 8,
+              "known_lanes": 8
+            }
+          ],
+          "2026-11-15": [
+            {
+              "from": "08:00",
+              "to": "09:30",
+              "free": 8,
+              "known_lanes": 8
+            },
+            {
+              "from": "09:30",
+              "to": "10:30",
+              "free": 6,
+              "known_lanes": 8
+            },
+            {
+              "from": "10:30",
               "to": "17:00",
               "free": 8,
               "known_lanes": 8
@@ -721,48 +1129,28 @@
       ],
       "updates_url": "https://www.sport-jicin.cz/koupani/aqua-centrum",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": true,
-      "hours_uncertain": true,
-      "open_now": null,
-      "public_hours_today": "10:00–21:00",
-      "current_public_block": null,
-      "free_lanes_now": null,
-      "lane_data_status": "unknown",
-      "warning": "Oficiální web obsahuje dnešní mimořádnou informaci; aktuální hodiny nejsou potvrzené. Ověřte je ve zdroji.",
+      "hours_uncertain": false,
+      "open_now": true,
+      "public_hours_today": "14:00–21:00",
+      "current_public_block": "14:00–21:00",
+      "free_lanes_now": 2,
+      "lane_data_status": "live",
+      "warning": null,
       "lane_availability": {
         "source": "jduplavat.cz",
         "source_url": "https://jduplavat.cz/koupaliste/aqua-centrum-jicin",
-        "fetched_at": "2026-11-01T12:45:29+01:00",
+        "fetched_at": "2026-11-02T14:18:27+01:00",
         "days": {
-          "2026-11-01": [
+          "2026-11-02": [
             {
-              "from": "10:00",
-              "to": "12:00",
+              "from": "07:30",
+              "to": "09:30",
               "free": 0,
               "known_lanes": 2
             },
-            {
-              "from": "12:00",
-              "to": "19:00",
-              "free": 2,
-              "known_lanes": 2
-            },
-            {
-              "from": "19:00",
-              "to": "20:00",
-              "free": 1,
-              "known_lanes": 2
-            },
-            {
-              "from": "20:00",
-              "to": "21:00",
-              "free": 2,
-              "known_lanes": 2
-            }
-          ],
-          "2026-11-02": [
             {
               "from": "14:00",
               "to": "16:00",
@@ -925,6 +1313,170 @@
               "free": 2,
               "known_lanes": 2
             }
+          ],
+          "2026-11-09": [
+            {
+              "from": "14:00",
+              "to": "16:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "16:00",
+              "to": "18:30",
+              "free": 0,
+              "known_lanes": 2
+            },
+            {
+              "from": "18:30",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
+          ],
+          "2026-11-10": [
+            {
+              "from": "06:00",
+              "to": "08:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "14:00",
+              "to": "15:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "15:00",
+              "to": "18:30",
+              "free": 0,
+              "known_lanes": 2
+            },
+            {
+              "from": "18:30",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
+          ],
+          "2026-11-11": [
+            {
+              "from": "06:00",
+              "to": "08:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "14:00",
+              "to": "16:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "16:00",
+              "to": "17:30",
+              "free": 1,
+              "known_lanes": 2
+            },
+            {
+              "from": "17:30",
+              "to": "18:30",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "18:30",
+              "to": "19:30",
+              "free": 1,
+              "known_lanes": 2
+            },
+            {
+              "from": "19:30",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
+          ],
+          "2026-11-12": [
+            {
+              "from": "06:00",
+              "to": "08:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "15:00",
+              "to": "18:30",
+              "free": 0,
+              "known_lanes": 2
+            },
+            {
+              "from": "18:30",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
+          ],
+          "2026-11-13": [
+            {
+              "from": "06:00",
+              "to": "08:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "15:00",
+              "to": "16:00",
+              "free": 0,
+              "known_lanes": 2
+            },
+            {
+              "from": "16:00",
+              "to": "17:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "17:00",
+              "to": "19:00",
+              "free": 0,
+              "known_lanes": 2
+            },
+            {
+              "from": "19:00",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
+          ],
+          "2026-11-14": [
+            {
+              "from": "10:00",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
+          ],
+          "2026-11-15": [
+            {
+              "from": "10:00",
+              "to": "19:00",
+              "free": 2,
+              "known_lanes": 2
+            },
+            {
+              "from": "19:00",
+              "to": "20:00",
+              "free": 1,
+              "known_lanes": 2
+            },
+            {
+              "from": "20:00",
+              "to": "21:00",
+              "free": 2,
+              "known_lanes": 2
+            }
           ]
         }
       }
@@ -945,8 +1497,8 @@
         50,
         25
       ],
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": null,
       "open_now": false,
       "public_hours_today": "uzavřeno – rekonstrukce",
@@ -1014,22 +1566,22 @@
       ],
       "updates_url": "https://stepanka.bazenmb.cz/category/aktuality/",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": true,
       "hours_uncertain": false,
       "open_now": true,
-      "public_hours_today": "08:30–22:00",
-      "current_public_block": "08:30–22:00",
+      "public_hours_today": "10:00–22:00",
+      "current_public_block": "10:00–22:00",
       "free_lanes_now": 6,
       "lane_data_status": "live",
       "warning": null,
       "lane_availability": {
         "source": "stepanka.bazenmb.cz",
         "source_url": "https://stepanka.bazenmb.cz/obsazenost/",
-        "fetched_at": "2026-11-01T12:45:29+01:00",
+        "fetched_at": "2026-11-02T14:18:27+01:00",
         "days": {
-          "2026-10-26": [
+          "2026-11-02": [
             {
               "from": "06:00",
               "to": "06:30",
@@ -1097,7 +1649,7 @@
               "known_lanes": 6
             }
           ],
-          "2026-10-27": [
+          "2026-11-03": [
             {
               "from": "06:00",
               "to": "07:00",
@@ -1153,7 +1705,7 @@
               "known_lanes": 6
             }
           ],
-          "2026-10-28": [
+          "2026-11-04": [
             {
               "from": "06:00",
               "to": "07:00",
@@ -1197,7 +1749,7 @@
               "known_lanes": 6
             }
           ],
-          "2026-10-29": [
+          "2026-11-05": [
             {
               "from": "06:00",
               "to": "06:30",
@@ -1295,7 +1847,7 @@
               "known_lanes": 6
             }
           ],
-          "2026-10-30": [
+          "2026-11-06": [
             {
               "from": "06:00",
               "to": "14:30",
@@ -1345,7 +1897,7 @@
               "known_lanes": 6
             }
           ],
-          "2026-10-31": [
+          "2026-11-07": [
             {
               "from": "06:00",
               "to": "24:00",
@@ -1353,7 +1905,7 @@
               "known_lanes": 6
             }
           ],
-          "2026-11-01": [
+          "2026-11-08": [
             {
               "from": "06:00",
               "to": "16:00",
@@ -1474,22 +2026,22 @@
       ],
       "updates_url": "https://sokolovna.bazenmb.cz/aktuality/",
       "updates_label": "Aktuality",
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": true,
-      "hours_uncertain": true,
-      "open_now": null,
-      "public_hours_today": "08:00–20:00",
+      "hours_uncertain": false,
+      "open_now": false,
+      "public_hours_today": "06:00–08:00, 14:30–22:00",
       "current_public_block": null,
-      "free_lanes_now": null,
-      "lane_data_status": "unknown",
-      "warning": "Oficiální web obsahuje dnešní mimořádnou informaci; aktuální hodiny nejsou potvrzené. Ověřte je ve zdroji.",
+      "free_lanes_now": 0,
+      "lane_data_status": "closed",
+      "warning": null,
       "lane_availability": {
         "source": "sokolovna.bazenmb.cz",
         "source_url": "https://sokolovna.bazenmb.cz/obsazenost-drah/",
-        "fetched_at": "2026-11-01T12:45:29+01:00",
+        "fetched_at": "2026-11-02T14:18:27+01:00",
         "days": {
-          "2026-10-26": [
+          "2026-11-02": [
             {
               "from": "06:00",
               "to": "06:30",
@@ -1545,7 +2097,7 @@
               "known_lanes": 5
             }
           ],
-          "2026-10-27": [
+          "2026-11-03": [
             {
               "from": "06:00",
               "to": "07:15",
@@ -1589,7 +2141,7 @@
               "known_lanes": 5
             }
           ],
-          "2026-10-28": [
+          "2026-11-04": [
             {
               "from": "06:00",
               "to": "07:15",
@@ -1657,7 +2209,7 @@
               "known_lanes": 5
             }
           ],
-          "2026-10-29": [
+          "2026-11-05": [
             {
               "from": "06:00",
               "to": "07:15",
@@ -1695,7 +2247,7 @@
               "known_lanes": 5
             }
           ],
-          "2026-10-30": [
+          "2026-11-06": [
             {
               "from": "06:00",
               "to": "06:30",
@@ -1745,7 +2297,7 @@
               "known_lanes": 5
             }
           ],
-          "2026-10-31": [
+          "2026-11-07": [
             {
               "from": "06:00",
               "to": "24:00",
@@ -1753,7 +2305,7 @@
               "known_lanes": 5
             }
           ],
-          "2026-11-01": [
+          "2026-11-08": [
             {
               "from": "06:00",
               "to": "24:00",
@@ -1862,53 +2414,21 @@
       ],
       "updates_url": "https://www.bazenhloubetin.eu/category/omezeni/",
       "updates_label": "Omezení",
-      "fetched_at": "2026-11-01T12:45:29+01:00",
-      "date": "2026-11-01",
+      "fetched_at": "2026-11-02T14:18:27+01:00",
+      "date": "2026-11-02",
       "source_fetch_ok": true,
       "hours_uncertain": false,
       "open_now": true,
-      "public_hours_today": "10:00–21:00",
-      "current_public_block": "10:00–21:00",
-      "free_lanes_now": 6,
+      "public_hours_today": "06:00–08:00, 12:30–16:00, 20:00–22:00",
+      "current_public_block": "12:30–16:00",
+      "free_lanes_now": 4,
       "lane_data_status": "live",
       "warning": null,
       "lane_availability": {
         "source": "jduplavat.cz",
         "source_url": "https://jduplavat.cz/koupaliste/plavecky-areal-hloubetin",
-        "fetched_at": "2026-11-01T12:45:29+01:00",
+        "fetched_at": "2026-11-02T14:18:27+01:00",
         "days": {
-          "2026-11-01": [
-            {
-              "from": "10:00",
-              "to": "18:00",
-              "free": 6,
-              "known_lanes": 6
-            },
-            {
-              "from": "18:00",
-              "to": "19:00",
-              "free": 5,
-              "known_lanes": 6
-            },
-            {
-              "from": "19:00",
-              "to": "19:30",
-              "free": 6,
-              "known_lanes": 6
-            },
-            {
-              "from": "19:30",
-              "to": "20:30",
-              "free": 5,
-              "known_lanes": 6
-            },
-            {
-              "from": "20:30",
-              "to": "21:00",
-              "free": 6,
-              "known_lanes": 6
-            }
-          ],
           "2026-11-02": [
             {
               "from": "06:00",
@@ -2204,6 +2724,332 @@
             }
           ],
           "2026-11-08": [
+            {
+              "from": "10:00",
+              "to": "18:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "18:00",
+              "to": "19:00",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "19:00",
+              "to": "19:30",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "19:30",
+              "to": "20:30",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "20:30",
+              "to": "21:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-09": [
+            {
+              "from": "06:00",
+              "to": "08:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "08:00",
+              "to": "12:30",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "12:30",
+              "to": "14:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "14:00",
+              "to": "15:00",
+              "free": 4,
+              "known_lanes": 6
+            },
+            {
+              "from": "15:00",
+              "to": "16:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "16:00",
+              "to": "20:00",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "20:00",
+              "to": "21:00",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "21:00",
+              "to": "22:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-10": [
+            {
+              "from": "06:00",
+              "to": "06:15",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "06:15",
+              "to": "07:30",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "07:30",
+              "to": "08:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "08:00",
+              "to": "12:30",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "12:30",
+              "to": "16:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "16:00",
+              "to": "18:00",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "18:00",
+              "to": "21:00",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "21:00",
+              "to": "22:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-11": [
+            {
+              "from": "06:00",
+              "to": "06:15",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "06:15",
+              "to": "07:30",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "07:30",
+              "to": "08:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "08:00",
+              "to": "12:30",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "12:30",
+              "to": "14:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "14:00",
+              "to": "15:00",
+              "free": 3,
+              "known_lanes": 6
+            },
+            {
+              "from": "15:00",
+              "to": "18:00",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "18:00",
+              "to": "18:15",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "18:15",
+              "to": "19:45",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "19:45",
+              "to": "20:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "20:00",
+              "to": "21:00",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "21:00",
+              "to": "22:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-12": [
+            {
+              "from": "06:00",
+              "to": "06:30",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "06:30",
+              "to": "07:30",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "07:30",
+              "to": "08:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "08:00",
+              "to": "12:30",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "12:30",
+              "to": "14:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "14:00",
+              "to": "15:00",
+              "free": 4,
+              "known_lanes": 6
+            },
+            {
+              "from": "15:00",
+              "to": "16:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "16:00",
+              "to": "18:00",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "18:00",
+              "to": "19:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "19:00",
+              "to": "21:00",
+              "free": 3,
+              "known_lanes": 6
+            },
+            {
+              "from": "21:00",
+              "to": "22:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-13": [
+            {
+              "from": "06:00",
+              "to": "08:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "08:00",
+              "to": "12:30",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "12:30",
+              "to": "13:00",
+              "free": 6,
+              "known_lanes": 6
+            },
+            {
+              "from": "13:00",
+              "to": "15:00",
+              "free": 5,
+              "known_lanes": 6
+            },
+            {
+              "from": "15:00",
+              "to": "18:00",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "18:00",
+              "to": "22:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-14": [
+            {
+              "from": "07:00",
+              "to": "10:00",
+              "free": 0,
+              "known_lanes": 6
+            },
+            {
+              "from": "10:00",
+              "to": "21:00",
+              "free": 6,
+              "known_lanes": 6
+            }
+          ],
+          "2026-11-15": [
             {
               "from": "10:00",
               "to": "18:00",
