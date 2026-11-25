@@ -28,6 +28,13 @@
       <button id="tab-tomorrow" class="tab" type="button" role="tab" aria-selected="false">Zítra</button>
     </nav>
 
+    <section class="time-controls" aria-label="Čas návštěvy">
+      <label for="visit-time">Čas návštěvy (Praha)</label>
+      <input id="visit-time" type="time" step="60" aria-describedby="time-help">
+      <button id="time-now" class="button" type="button">Aktuální čas</button>
+      <p id="time-help">Vybraný čas se pamatuje pro Dnes i Zítra. Bez údajů o drahách zobrazujeme ?.</p>
+    </section>
+
     <section class="summary" id="summary" aria-label="Souhrn"></section>
 
     <section class="grid" id="grid" aria-live="polite" aria-busy="true">
@@ -50,6 +57,6 @@
       <span>Neznámé údaje raději nezobrazujeme jako odhad.</span>
     </footer>
   </main>
-  <script src="./app.js?v=20261017-4" defer></script>
+  <script src="./app.js?v=20261125-1" defer></script>
 </body>
 </html>

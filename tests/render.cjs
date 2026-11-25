@@ -82,6 +82,35 @@ function expected(p) {
       assert.match(await page.locator('#grid').innerText(), /Běžný rozvrh – nepotvrzený/iu);
       assert.match(await page.locator('#grid').innerText(), /\? \/ 4/);
     }
+    if (!remote) {
+      const today = new Intl.DateTimeFormat('en-CA', {timeZone:'Europe/Prague'}).format(new Date());
+      const tomorrow = new Date(today + 'T12:00:00Z'); tomorrow.setUTCDate(tomorrow.getUTCDate()+1);
+      const next = tomorrow.toISOString().slice(0,10);
+      const pool = {id:'time-test',name:'Time test',total_lanes:4,
+        weekly_hours:Object.fromEntries(Array.from({length:7},(_,i)=>[i,[['08:00','20:00']]])),
+        lane_availability:{days:{
+          [today]:[{from:'08:00',to:'20:00',free:2}],
+          [next]:[{from:'08:00',to:'20:00',free:3}]
+        }}};
+      await page.route('**/data/pools.json*',route=>route.fulfill({json:{...fixture,pools:[pool]}}));
+      await page.reload();
+      await page.getByRole('heading',{name:'Time test',exact:true}).waitFor();
+      await page.locator('#visit-time').fill('12:00');
+      await page.locator('#visit-time').press('Tab');
+      const selected = () => page.locator('.stat').filter({hasText:/Volné dráhy.*v 12:00/i});
+      assert.match(await selected().textContent(), /2 \/ 4/);
+      await page.getByRole('tab',{name:'Zítra',exact:true}).click();
+      assert.match(await selected().textContent(), /3 \/ 4/);
+      await page.reload();
+      await page.getByRole('heading',{name:'Time test',exact:true}).waitFor();
+      assert.equal(await page.locator('#visit-time').inputValue(),'12:00');
+      assert.match(await selected().textContent(), /2 \/ 4/);
+      await page.locator('#visit-time').fill('20:00');
+      await page.locator('#visit-time').press('Tab');
+      assert.match(await page.locator('.stat').filter({hasText:/Volné dráhy.*v 20:00/i}).textContent(), /0 \/ 4/);
+      await page.getByRole('button',{name:'Aktuální čas',exact:true}).click();
+      assert.equal(await page.evaluate(()=>localStorage.getItem('poolstat.visitTime')),null);
+    }
     assert.deepEqual(errors,[]);
     console.log('Rendered links pass in both tabs' + (remote ? '; deployed data are fresh' : ' and optional-link fixtures'));
   } finally {if(browser) await browser.close();if(server) server.close();}

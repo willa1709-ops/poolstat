@@ -5,6 +5,34 @@ const reload = document.querySelector('#reload');
 const pageTitle = document.querySelector('#page-title');
 const tabToday = document.querySelector('#tab-today');
 const tabTomorrow = document.querySelector('#tab-tomorrow');
+const visitTime = document.querySelector('#visit-time');
+const timeNow = document.querySelector('#time-now');
+let selectedTime = null;
+try {
+  const saved = localStorage.getItem('poolstat.visitTime');
+  if (/^\d{2}:\d{2}$/.test(saved) && hhmmToMinutes(saved) !== null) selectedTime = saved;
+} catch {}
+function visitClock(clock, view) {
+  const day = view === 'tomorrow' ? shiftedClock(clock, 1) : {...clock};
+  if (selectedTime !== null) day.minutes = hhmmToMinutes(selectedTime);
+  return day;
+}
+function clockText(clock) {
+  return String(Math.floor(clock.minutes / 60)).padStart(2, '0') + ':' + String(clock.minutes % 60).padStart(2, '0');
+}
+function saveTime(value) {
+  selectedTime = value;
+  try {
+    if (value === null) localStorage.removeItem('poolstat.visitTime');
+    else localStorage.setItem('poolstat.visitTime', value);
+  } catch {}
+  if (currentData) renderData(currentData);
+}
+visitTime.addEventListener('change', () => {
+  if (!visitTime.value) saveTime(null);
+  else if (hhmmToMinutes(visitTime.value) !== null) saveTime(visitTime.value);
+});
+timeNow.addEventListener('click', () => saveTime(null));
 let currentData = null;
 let currentView = 'today';
 
@@ -230,6 +258,8 @@ function detailsNote(text) {
 
 function card(p, clock, view) {
   const isTomorrow = view === 'tomorrow';
+  const targetClock = visitClock(clock, view);
+  const targetLive = liveState(p, targetClock);
   const live = liveState(p, clock);
   const tomorrowIntervals = isTomorrow ? scheduleForTomorrow(p, clock) : null;
   const [label, cls] = isTomorrow ? futureStateFor(p, tomorrowIntervals) : stateFor(p, live);
@@ -255,6 +285,12 @@ function card(p, clock, view) {
     const free = lanes(p, live, clock);
     const laneLabel = p.total_lanes ? `${free} / ${p.total_lanes}` : free;
     stats.append(stat('Volné dráhy teď', laneLabel, { unknown: free === '?' }));
+  }
+
+  if (isTomorrow || selectedTime !== null) {
+    const free = lanes(p, targetLive, targetClock);
+    stats.append(stat(`Volné dráhy ${isTomorrow ? 'zítra ' : ''}v ${clockText(targetClock)}`,
+      p.total_lanes ? `${free} / ${p.total_lanes}` : free, { unknown: free === '?' }));
   }
 
   stats.append(stat('Délka dráhy', laneLength(p)));
@@ -307,6 +343,11 @@ function renderData(data) {
   const clock = pragueNow(data.timezone || 'Europe/Prague');
   const pools = sortedPools(data.pools);
   const isTomorrow = currentView === 'tomorrow';
+  if (document.activeElement !== visitTime) visitTime.value = selectedTime || clockText(clock);
+  timeNow.setAttribute('aria-pressed', String(selectedTime === null));
+  document.querySelector('#time-help').textContent = selectedTime === null
+    ? 'Aktuální pražský čas se průběžně aktualizuje. Bez údajů o drahách zobrazujeme ?.'
+    : 'Vybraný čas se pamatuje pro Dnes i Zítra i po obnovení stránky. Bez údajů o drahách zobrazujeme ?.';
   setActiveTab(currentView);
   grid.replaceChildren(...pools.map(p => card(p, clock, currentView)));
 
