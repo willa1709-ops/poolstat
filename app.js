@@ -28,11 +28,21 @@ function saveTime(value) {
   } catch {}
   if (currentData) renderData(currentData);
 }
+visitTime.addEventListener('input', () => visitTime.setCustomValidity(''));
 visitTime.addEventListener('change', () => {
-  if (!visitTime.value) saveTime(null);
-  else if (hhmmToMinutes(visitTime.value) !== null) saveTime(visitTime.value);
+  const raw = visitTime.value.trim();
+  const digits = /^(\d{1,2}):(\d{2})$/.exec(raw) || /^(\d{2})(\d{2})$/.exec(raw);
+  const normalized = digits ? digits[1].padStart(2, '0') + ':' + digits[2] : '';
+  if (normalized && hhmmToMinutes(normalized) !== null) {
+    visitTime.setCustomValidity('');
+    visitTime.value = normalized;
+    saveTime(normalized);
+  } else {
+    visitTime.setCustomValidity('Zadejte čas 00:00 až 23:59, například 14:30.');
+    visitTime.reportValidity();
+  }
 });
-timeNow.addEventListener('click', () => saveTime(null));
+timeNow.addEventListener('click', () => { visitTime.setCustomValidity(''); saveTime(null); });
 let currentData = null;
 let currentView = 'today';
 

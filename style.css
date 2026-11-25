@@ -350,3 +350,5 @@ footer {
 .time-fields { display:flex; flex-wrap:nowrap; align-items:center; gap:12px; max-width:100%; }
 .time-fields input { font:inherit; padding:10px; border:1px solid #ccd5da; border-radius:8px; background:white; min-width:0; }
 .time-fields .button { width:auto; flex:0 0 auto; white-space:nowrap; }
+
+.time-fields input { width:7ch; font-variant-numeric:tabular-nums; }
