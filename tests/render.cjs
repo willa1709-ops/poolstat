@@ -108,7 +108,7 @@ function expected(p) {
       await page.locator('#visit-time').fill('20:00');
       await page.locator('#visit-time').press('Tab');
       assert.match(await page.locator('.stat').filter({hasText:/Volné dráhy.*v 20:00/i}).textContent(), /0 \/ 4/);
-      await page.getByRole('button',{name:'Aktuální čas',exact:true}).click();
+      await page.getByRole('button',{name:'Teď',exact:true}).click();
       assert.equal(await page.evaluate(()=>localStorage.getItem('poolstat.visitTime')),null);
     }
     assert.deepEqual(errors,[]);

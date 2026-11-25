@@ -10,7 +10,7 @@
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <title>Přehled</title>
-  <link rel="stylesheet" href="./style.css?v=20261016-3">
+  <link rel="stylesheet" href="./style.css?v=20261125-2">
 </head>
 <body>
   <main class="wrap">
@@ -29,10 +29,11 @@
     </nav>
 
     <section class="time-controls" aria-label="Čas návštěvy">
-      <label for="visit-time">Čas návštěvy (Praha)</label>
-      <input id="visit-time" type="time" step="60" aria-describedby="time-help">
-      <button id="time-now" class="button" type="button">Aktuální čas</button>
-      <p id="time-help">Vybraný čas se pamatuje pro Dnes i Zítra. Bez údajů o drahách zobrazujeme ?.</p>
+      <label for="visit-time">Čas návštěvy</label>
+      <div class="time-fields">
+      <input id="visit-time" type="time" step="60">
+      <button id="time-now" class="button" type="button">Teď</button>
+      </div>
     </section>
 
     <section class="summary" id="summary" aria-label="Souhrn"></section>
@@ -57,6 +58,6 @@
       <span>Neznámé údaje raději nezobrazujeme jako odhad.</span>
     </footer>
   </main>
-  <script src="./app.js?v=20261125-1" defer></script>
+  <script src="./app.js?v=20261125-2" defer></script>
 </body>
 </html>

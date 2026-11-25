@@ -345,9 +345,6 @@ function renderData(data) {
   const isTomorrow = currentView === 'tomorrow';
   if (document.activeElement !== visitTime) visitTime.value = selectedTime || clockText(clock);
   timeNow.setAttribute('aria-pressed', String(selectedTime === null));
-  document.querySelector('#time-help').textContent = selectedTime === null
-    ? 'Aktuální pražský čas se průběžně aktualizuje. Bez údajů o drahách zobrazujeme ?.'
-    : 'Vybraný čas se pamatuje pro Dnes i Zítra i po obnovení stránky. Bez údajů o drahách zobrazujeme ?.';
   setActiveTab(currentView);
   grid.replaceChildren(...pools.map(p => card(p, clock, currentView)));
 
