@@ -346,6 +346,9 @@ footer {
   *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; }
 }
 
-.time-controls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:16px 0; }
-.time-controls input { font:inherit; padding:10px; border:1px solid #ccd5da; border-radius:8px; background:white; }
-.time-controls p { flex-basis:100%; margin:0; font-size:.85rem; }
+.time-controls { display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin:16px 0; }
+.time-fields { display:flex; flex-wrap:nowrap; align-items:center; gap:12px; max-width:100%; }
+.time-fields input { font:inherit; padding:10px; border:1px solid #ccd5da; border-radius:8px; background:white; min-width:0; }
+.time-fields .button { width:auto; flex:0 0 auto; white-space:nowrap; }
+
+.time-fields input { width:7ch; font-variant-numeric:tabular-nums; }

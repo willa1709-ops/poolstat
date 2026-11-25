@@ -95,7 +95,8 @@ function expected(p) {
       await page.route('**/data/pools.json*',route=>route.fulfill({json:{...fixture,pools:[pool]}}));
       await page.reload();
       await page.getByRole('heading',{name:'Time test',exact:true}).waitFor();
-      await page.locator('#visit-time').fill('12:00');
+      assert.equal(await page.locator('#visit-time').getAttribute('type'),'text');
+      await page.locator('#visit-time').fill('1200');
       await page.locator('#visit-time').press('Tab');
       const selected = () => page.locator('.stat').filter({hasText:/Volné dráhy.*v 12:00/i});
       assert.match(await selected().textContent(), /2 \/ 4/);
@@ -108,7 +109,7 @@ function expected(p) {
       await page.locator('#visit-time').fill('20:00');
       await page.locator('#visit-time').press('Tab');
       assert.match(await page.locator('.stat').filter({hasText:/Volné dráhy.*v 20:00/i}).textContent(), /0 \/ 4/);
-      await page.getByRole('button',{name:'Aktuální čas',exact:true}).click();
+      await page.getByRole('button',{name:'Teď',exact:true}).click();
       assert.equal(await page.evaluate(()=>localStorage.getItem('poolstat.visitTime')),null);
     }
     assert.deepEqual(errors,[]);
